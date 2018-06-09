@@ -10,14 +10,14 @@ pub enum LineSources {
     Room { id: String },
 }
 
-struct LineSource {
-    kind: LineSourceType,
-}
+// struct LineSource {
+//     kind: LineSourceType,
+// }
 
-impl LineSource {
-    pub fn new(kind: LineSourceType) -> LineSource {
-        LineSource { kind: kind}
-    }
+impl LineSources {
+    // pub fn new(kind: LineSourceType) -> LineSource {
+    //     LineSource { kind: kind}
+    // }
 
     fn create_from_object(kind: LineSourceType, id: String) -> LineSources{
         match kind {

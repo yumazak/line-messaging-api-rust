@@ -16,7 +16,7 @@ use std::collections::HashMap;
 
 use structs::LineBotConfig;
 use line_messages::{LineMessageType, LineMessage};
-use line_sources::UserSource;
+use line_sources::LineSources;
 
 static BASE_URL: &'static str = "https://api.line.me/v2/bot";
 
@@ -85,8 +85,11 @@ impl LineBot {
         self.get(endpoint.as_str(), data);
     }
 
-    pub fn get_profile_from_user_source(&self, user: UserSource) {
-        self.get_profile(user.get_user_id())
+    pub fn get_profile_from_user_source(&self, user: LineSources) {
+        match user {
+            LineSources::User{ id } => self.get_profile(&id),
+            _ => {}
+        }
     }
 
     pub fn get_profile(&self, user_id: &str) {
@@ -96,9 +99,24 @@ impl LineBot {
     }
 
 
-    pub leave_from_source(source: GroupSource) {
-        
+    pub fn leave_from_source(&self, source: LineSources) {
+        match source {
+            LineSources::Group { id } => self.leave(LineSources::Group { id }),
+            LineSources::Room { id }  => self.leave(LineSources::Room { id }),
+            _                         => {}
+        }
     }
+
+    pub fn leave(&self, kind: LineSources) {
+        let url = match kind {
+            LineSources::Group { id } => format!("/group/{}/leave", id),
+            LineSources::Room { id }  => format!("/room/{}/leave", id),
+            _                         => String::new()
+        };
+
+        self.post(&url, HashMap::new(), HashMap::new());
+    }
+
     //i dont know what is options
     pub fn get(&self, endpoint: &str, options: HashMap<String, String>) -> Response{
         let url = format!("{}{}", BASE_URL, endpoint);
@@ -119,5 +137,6 @@ impl LineBot {
             .send()
             .expect(&format!("Failed to post to {}", endpoint))
     }
+
 }
 
