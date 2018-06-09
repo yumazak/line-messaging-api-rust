@@ -16,6 +16,7 @@ use std::collections::HashMap;
 
 use structs::LineBotConfig;
 use line_messages::{LineMessageType, LineMessage};
+use line_sources::UserSource;
 
 static BASE_URL: &'static str = "https://api.line.me/v2/bot";
 
@@ -84,10 +85,20 @@ impl LineBot {
         self.get(endpoint.as_str(), data);
     }
 
-    pub get_profile_from_user_source(&self, user: UserSource) {
+    pub fn get_profile_from_user_source(&self, user: UserSource) {
         self.get_profile(user.get_user_id())
     }
 
+    pub fn get_profile(&self, user_id: &str) {
+        let endpoint = format!("/profile/{}", user_id);
+
+        self.get(&endpoint, HashMap::new());
+    }
+
+
+    pub leave_from_source(source: GroupSource) {
+        
+    }
     //i dont know what is options
     pub fn get(&self, endpoint: &str, options: HashMap<String, String>) -> Response{
         let url = format!("{}{}", BASE_URL, endpoint);

@@ -4,10 +4,11 @@ extern crate crypto;
 #[macro_use]
 extern crate serde_json;
 
-pub mod line_actions;
-pub mod line_bot; 
+mod line_actions;
+mod line_bot; 
 mod line_messages;
-pub mod structs;
+mod line_sources;
+mod structs;
 
 
 
