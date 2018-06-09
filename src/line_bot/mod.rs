@@ -84,6 +84,10 @@ impl LineBot {
         self.get(endpoint.as_str(), data);
     }
 
+    pub get_profile_from_user_source(&self, user: UserSource) {
+        self.get_profile(user.get_user_id())
+    }
+
     //i dont know what is options
     pub fn get(&self, endpoint: &str, options: HashMap<String, String>) -> Response{
         let url = format!("{}{}", BASE_URL, endpoint);
