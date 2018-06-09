@@ -1,0 +1,6 @@
+[package]
+name = "line-bot-sdk-rust"
+version = "0.1.0"
+authors = ["uma <blog3170@gmail.com>"]
+
+[dependencies]
