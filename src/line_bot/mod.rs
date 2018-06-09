@@ -7,9 +7,11 @@ use crypto::sha1::Sha1;
 use crypto::hmac::Hmac;
 use crypto::mac::Mac;
 use serde_json::Value;
+use reqwest::Response; 
 
 use std::thread;
 use std::sync::mpsc;
+use std::io::Read;
 use std::collections::HashMap;
 
 use structs::LineBotConfig;
@@ -66,13 +68,41 @@ impl LineBot {
         data.insert(String::from("to"), String::from(to));
         data.insert(String::from("messages"), json_data);
 
-        self.post("/message/push", data, "test");
+        self.post("/message/push", data, HashMap::new());
     }
 
-    pub fn post(&self, endpoint: &str, data: HashMap<String, String>, options: &str) {
-        let url = format!("{}{}{}", BASE_URL, endpoint, options);
+    pub fn get_content_from_message(&self, message: LineMessage) {
+        self.get_content(message.get_id())
+    }
+
+    // need error process;
+    pub fn get_content(&self, message_id: String) {
+        let endpoint = format!("/message/{}/content", message_id);
+        let mut data = HashMap::new();
+
+        data.insert(String::from("responseType"), String::from("stream"));
+        self.get(endpoint.as_str(), data);
+    }
+
+    //i dont know what is options
+    pub fn get(&self, endpoint: &str, options: HashMap<String, String>) -> Response{
+        let url = format!("{}{}", BASE_URL, endpoint);
+
+        self.client.get(&url)
+            .form(&options)
+            .send()
+            .expect(&format!("Failed to get to {}", endpoint))
+    }
+
+    pub fn post(&self, endpoint: &str, data: HashMap<String, String>, options: HashMap<String, String>) -> Response{
+        let url = format!("{}{}", BASE_URL, endpoint);
         println!("{}", url);
-        // self.client.post(&url).send().expect("Failed to send request");
+
+        self.client.post(&url)
+            .form(&data)
+            .form(&options)            
+            .send()
+            .expect(&format!("Failed to post to {}", endpoint))
     }
 }
 

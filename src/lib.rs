@@ -27,7 +27,7 @@ mod tests {
     #[test]
     fn url_test() {
         let bot = LineBot::new("secret key", "this is a pen.");
-        let message = LineMessage::new(1, LineMessageType::Text, "hi");
+        let message = LineMessage::new("testid", LineMessageType::Text, "hi");
         bot.push("Ua2829b4c5a9b21984c091fc0b641fa8f", vec![message]);
     }
 }
