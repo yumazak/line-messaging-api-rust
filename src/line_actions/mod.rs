@@ -6,18 +6,35 @@ pub enum LineActionType {
     Postback
 }
 
+pub enum ImageActionType {
+    ImagemapURIAction { link_url: String },
+    ImagemapMessageAction {text: String},
+
+}
 pub struct ImagemapAction {
-    kind: String,
-    area: Rectangle
+    kind: ImageActionType,
+    area: Rectangle,
 }
 
 impl ImagemapAction {
-    pub fn new(kind: String, area: Rectangle) -> ImagemapAction {
+    pub fn new(kind: ImageActionType, area: Rectangle) -> ImagemapAction {
         ImagemapAction { kind: kind, area: area}
     }
-
-    // createFromObject(params: String) {
-
-    // }
 }
 
+pub enum TemplateActionType {
+    TemplateURIAction { uri: String },
+    TemplateMessageAction { text: String },
+    TemplatePostbackAction { text: String, data: String }
+}
+
+pub struct TemplateAction {
+    kind:  TemplateActionType,
+    label: String,
+}
+
+impl TemplateAction {
+    pub fn new(kind: TemplateActionType, label: String) -> TemplateAction {
+        TemplateAction { kind, label }
+    }
+}
