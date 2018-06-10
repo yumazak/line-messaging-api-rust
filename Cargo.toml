@@ -3,6 +3,10 @@ name = "line-messaging-api-rust"
 version = "0.1.0"
 authors = ["uma <blog3170@gmail.com>"]
 
+license = "MIT"
+description = "LINE Messaging API Wrapper in Rust"
+repository = "https://github.com/uma0317/line-messaging-api-rust"
+
 [dependencies]
 reqwest = "0.8.6"
 rust-crypto = "^0.2"
