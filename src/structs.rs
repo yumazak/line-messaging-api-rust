@@ -1,3 +1,6 @@
+use serde::ser::{Serialize, Serializer, SerializeSeq, SerializeMap};
+
+#[derive(Serialize, Deserialize)]
 pub struct LineBotConfig {
     channel_secret: String,
     channel_token:  String,
@@ -16,14 +19,10 @@ impl LineBotConfig {
     }
 }
 
+#[derive(Serialize, Deserialize)]
 pub struct Rectangle {
     x:      u32,
     y:      u32,
     width:  u32,
     height: u32
 }
-
-// pub struct PostData {
-//     to: String,
-    
-// }

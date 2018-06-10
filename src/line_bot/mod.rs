@@ -15,8 +15,8 @@ use std::io::Read;
 use std::collections::HashMap;
 
 use structs::LineBotConfig;
-use line_messages::{LineMessageType, LineMessage};
-use line_sources::LineSources;
+use line_messages::{ LineMessageType, LineMessage };
+use line_sources::{ LineSourceType, LineSource };
 
 static BASE_URL: &'static str = "https://api.line.me/v2/bot";
 
@@ -59,9 +59,7 @@ impl LineBot {
     pub fn push(&self, to: &str, msg: Vec<LineMessage>) {
         let mut messages: Vec<String> = vec![];
 
-        for message in msg.into_iter() {
-            messages.push(message.get_text());
-        }
+        
 
 
         let mut data = HashMap::new();
@@ -85,9 +83,9 @@ impl LineBot {
         self.get(endpoint.as_str(), data);
     }
 
-    pub fn get_profile_from_user_source(&self, user: LineSources) {
-        match user {
-            LineSources::User{ id } => self.get_profile(&id),
+    pub fn get_profile_from_user_source(&self, user: LineSource) {
+        match user.kind {
+            LineSourceType::User{ user_id } => self.get_profile(&user_id),
             _ => {}
         }
     }
@@ -99,19 +97,19 @@ impl LineBot {
     }
 
 
-    pub fn leave_from_source(&self, source: LineSources) {
-        match source {
-            LineSources::Group { group_id, user_id } => self.leave(LineSources::Group { group_id, user_id }),
-            LineSources::Room { room_id, user_id }   => self.leave(LineSources::Room { room_id, user_id }),
-            _                                        => {}
-        }
-    }
+    // pub fn leave_from_source(&self, source: LineSource) {
+    //     match source.kind {
+    //         LineSourceType::Group { group_id, user_id } => self.leave(source),
+    //         LineSourceType::Room { room_id, user_id }   => self.leave(source),
+    //         _                                        => {}
+    //     }
+    // }
 
-    pub fn leave(&self, kind: LineSources) {
-        let url = match kind {
-            LineSources::Group { group_id, user_id } => format!("/group/{}/leave", group_id),
-            LineSources::Room { room_id, user_id }   => format!("/room/{}/leave", room_id),
-            _                                        => String::new()
+    pub fn leave(&self, source: LineSource) {
+        let url = match source.kind {
+            LineSourceType::Group { group_id, user_id } => format!("/group/{}/leave", group_id),
+            LineSourceType::Room { room_id, user_id }   => format!("/room/{}/leave", room_id),
+            _                                           => String::new()
         };
 
         self.post(&url, HashMap::new(), HashMap::new());

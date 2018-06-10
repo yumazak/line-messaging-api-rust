@@ -1,5 +1,10 @@
-use line_actions::ImagemapAction;
+use serde::ser::{Serialize, Serializer, SerializeStruct};
 
+use line_actions::ImagemapAction;
+use line_templates::TemplateComponent;
+
+#[derive(Serialize, Deserialize)]
+#[serde(tag = "type", rename_all = "lowercase")]
 pub enum LineMessageType {
     Text{text: String},
     Image{original_content_url: String, preview_image_url: String },
@@ -11,8 +16,10 @@ pub enum LineMessageType {
     Template{ alt_text: String, template: TemplateComponent }
 }
 
+#[derive(Serialize, Deserialize)]
 pub struct LineMessage {
     id:   String,
+    #[serde(flatten)]
     kind: LineMessageType,
 }
 
@@ -25,3 +32,16 @@ impl LineMessage {
         self.id.clone()
     }  
 }
+
+// impl Serialize for LineMessage {
+//     fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+//     where
+//         S: Serializer,
+//     {
+//         // 3 is the number of fields in the struct.
+//         let mut state = serializer.serialize_struct("LineMessage", 3)?;
+//         state.serialize_field("id", &self.id)?;
+//         state.serialize_field(&self.kind)?;
+//         state.end()
+//     }
+// }

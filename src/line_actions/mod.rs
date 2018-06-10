@@ -1,16 +1,12 @@
 use structs::Rectangle;
 
-pub enum LineActionType {
-    Uri,
-    Message,
-    Postback
-}
-
+#[derive(Serialize, Deserialize)]
 pub enum ImageActionType {
     ImagemapURIAction { link_url: String },
     ImagemapMessageAction {text: String},
-
 }
+
+#[derive(Serialize, Deserialize)]
 pub struct ImagemapAction {
     kind: ImageActionType,
     area: Rectangle,
@@ -22,12 +18,14 @@ impl ImagemapAction {
     }
 }
 
+#[derive(Serialize, Deserialize)]
 pub enum TemplateActionType {
     TemplateURIAction { uri: String },
     TemplateMessageAction { text: String },
     TemplatePostbackAction { text: String, data: String }
 }
 
+#[derive(Serialize, Deserialize)]
 pub struct TemplateAction {
     kind:  TemplateActionType,
     label: String,
