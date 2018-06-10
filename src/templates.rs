@@ -1,4 +1,4 @@
-use line_actions::TemplateAction;
+use actions::TemplateAction;
 
 #[derive(Serialize, Deserialize)]
 pub enum LineTemplateType {

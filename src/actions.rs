@@ -1,4 +1,4 @@
-use structs::Rectangle;
+use models::Rectangle;
 
 #[derive(Serialize, Deserialize)]
 pub enum ImageActionType {

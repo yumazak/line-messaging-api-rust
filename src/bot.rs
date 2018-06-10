@@ -1,29 +1,40 @@
 use reqwest::Client;
 use reqwest::header::{Authorization, Bearer, ContentType};
+use reqwest::Response; 
+
 use serialize::hex::ToHex;
 use serialize::base64::{STANDARD, ToBase64};
+
 use crypto::digest::Digest;
 use crypto::sha2::Sha256;
 use crypto::sha1::Sha1;
 use crypto::hmac::Hmac;
 use crypto::mac::Mac;
+
 use serde_json::Value;
-use reqwest::Response; 
 use serde_json;
 
+use tokio::io;
+use tokio::net::TcpListener;
+use tokio::prelude::*;
+use tokio;
+use futures::sync::mpsc;
+
 use std::thread;
-use std::sync::mpsc;
 use std::io::Read;
 use std::collections::HashMap;
 
-use structs::LineBotConfig;
-use line_messages::{ LineMessageType, LineMessage };
-use line_sources::{ LineSourceType, LineSource };
+
+use models::LineBotConfig;
+use messages::{ LineMessageType, LineMessage };
+use sources::{ LineSourceType, LineSource };
 
 static BASE_URL: &'static str = "https://api.line.me/v2/bot";
 
+
 pub struct LineBot {
     pub config: LineBotConfig,
+    // pub listener: TcpListener,
     pub client: Client,
 }
 
@@ -31,13 +42,10 @@ impl LineBot {
     pub fn new(channel_secret: &str, channel_token: &str) -> LineBot {
         LineBot { 
             config: LineBotConfig::new(channel_secret, channel_token),
+            // listener: TcpListener::bind(&addr).expect("unable to bind TCP listener"),
             client: Client::new()
         }
     }
-
-    // fn initHyper(&self) {
-    //     self.client = Client::new().expect("Couldn't create client");
-    // }
 
     pub fn check_signature(&self, signature: &str, body: &str) -> bool {
         let mut hmac = Hmac::new(
@@ -52,8 +60,8 @@ impl LineBot {
         let mut signature_hashed = Sha1::new();
         signature_hashed.input_str(signature);
 
-        println!("hmac_hashed: {}", hmac_hashed.result_str());
-        println!("signature_hashed: {}", signature_hashed.result_str());
+        // println!("hmac_hashed: {}", hmac_hashed.result_str());
+        // println!("signature_hashed: {}", signature_hashed.result_str());
 
         hmac_hashed.result_str() == signature_hashed.result_str()
     }
@@ -63,16 +71,14 @@ impl LineBot {
             "to": to,
             "messages": msg
         });
-        // data.insert(String::from("to"), String::from(to));
-        // data.insert(String::from("messages"), json);
-        self.post("/message/push", data, HashMap::new());
+
+        self.post("/message/push", data, json!({}));
     }
 
     pub fn get_content_from_message(&self, message: LineMessage) {
         self.get_content(message.get_id())
     }
 
-    // need error process;
     pub fn get_content(&self, message_id: String) {
         let endpoint = format!("/message/{}/content", message_id);
         let mut data = HashMap::new();
@@ -110,7 +116,7 @@ impl LineBot {
             _                                           => String::new()
         };
 
-        self.post(&url, json!({}), HashMap::new());
+        self.post(&url, json!({}), json!({}));
     }
 
     //i dont know what is options
@@ -123,7 +129,7 @@ impl LineBot {
             .expect(&format!("Failed to get to {}", endpoint))
     }
 
-    pub fn post(&self, endpoint: &str, data: Value, options: HashMap<String, String>) -> Response{
+    pub fn post(&self, endpoint: &str, data: Value, options: Value) -> Response{
         let url = format!("{}{}", BASE_URL, endpoint);
 
         let mut response = self.client.post(&url)
@@ -141,10 +147,10 @@ impl LineBot {
         let mut buf = String::new();
         response.read_to_string(&mut buf).expect("Failed to read response");
 
-        println!("url: {}", url);
-        println!("body: {}", data);
-        println!("Response: {}", buf);
-        println!("res: {:?}", response);
+        // println!("url: {}", url);
+        // println!("body: {}", data);
+        // println!("Response: {}", buf);
+        // println!("res: {:?}", response);
         response
     }
 

@@ -2,6 +2,8 @@ extern crate rustc_serialize as serialize;
 extern crate reqwest;
 extern crate crypto;
 extern crate serde;
+extern crate tokio;
+extern crate bytes;
 
 #[macro_use]
 extern crate serde_derive;
@@ -9,23 +11,28 @@ extern crate serde_derive;
 #[macro_use]
 extern crate serde_json;
 
-mod line_actions;
-mod line_bot; 
-mod line_messages;
-mod line_sources;
-mod line_templates;
-mod structs;
+#[macro_use]
+extern crate futures;
+
+pub mod actions;
+pub mod bot;
+pub mod events;
+pub mod messages;
+pub mod sources;
+pub mod templates;
+pub mod models;
 
 
 
 #[cfg(test)]
 mod tests {
-    use super::line_bot::LineBot;
-    use super::structs::LineBotConfig;
-    use super::line_messages::LineMessage;
-    use super::line_messages::LineMessageType;
+    use super::bot::LineBot;
+    use super::models::LineBotConfig;
+    use super::messages::LineMessage;
+    use super::messages::LineMessageType;
 
     use super::serde_json;
+
     #[test]
     fn hamc_test() {
         let bot = LineBot::new("secret key", "this is a pen.");
@@ -63,7 +70,7 @@ mod tests {
     fn get_test() {
         let bot = LineBot::new(
             "b83d12adec48f46c4434f6cc035f745d",
-            "oSY5LoHilHgd4E9sF/HO1Srm/BnAWCW7SqLaErLRybcQURpgq8W9UD/5jCuh4IZIxCbhWLqXshCxVuBKeK0O1x4cnVLan7Y8WZcF84mamJMBvWTV0c9SQzLXTKpua7FZyKTztMY/YLFja+b0VusGwgdB04t89/1O/w1cDnyilFU="
+            "oSY5LoHilHgd4E9sF/HO1Srm/BnAWCW7SqLaErLRybcQURpgq8W9UD/5jCuh4IZIxCbhWLqXshCxVuBKeK0O1x4cnVLan7Y8WZcF84mamJMBvWTV0c9SQzLXTKpua7FZyKTztMY/YLFja+b0VusGwgdB04t89/1O/w1cDnyilFU=",
         );
 
         let message = LineMessage::new("", LineMessageType::Text{ text: String::from("Hello") });
