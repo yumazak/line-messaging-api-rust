@@ -101,17 +101,17 @@ impl LineBot {
 
     pub fn leave_from_source(&self, source: LineSources) {
         match source {
-            LineSources::Group { id } => self.leave(LineSources::Group { id }),
-            LineSources::Room { id }  => self.leave(LineSources::Room { id }),
-            _                         => {}
+            LineSources::Group { group_id, user_id } => self.leave(LineSources::Group { group_id, user_id }),
+            LineSources::Room { room_id, user_id }   => self.leave(LineSources::Room { room_id, user_id }),
+            _                                        => {}
         }
     }
 
     pub fn leave(&self, kind: LineSources) {
         let url = match kind {
-            LineSources::Group { id } => format!("/group/{}/leave", id),
-            LineSources::Room { id }  => format!("/room/{}/leave", id),
-            _                         => String::new()
+            LineSources::Group { group_id, user_id } => format!("/group/{}/leave", group_id),
+            LineSources::Room { room_id, user_id }   => format!("/room/{}/leave", room_id),
+            _                                        => String::new()
         };
 
         self.post(&url, HashMap::new(), HashMap::new());

@@ -6,27 +6,27 @@ pub enum LineSourceType {
 
 pub enum LineSources {
     User { id: String },
-    Group{ id: String },
-    Room { id: String },
+    Group{ group_id: String , user_id: String},
+    Room { room_id: String, user_id: String },
 }
 
 // struct LineSource {
 //     kind: LineSourceType,
 // }
 
-impl LineSources {
-    // pub fn new(kind: LineSourceType) -> LineSource {
-    //     LineSource { kind: kind}
-    // }
+// impl LineSources {
+//     // pub fn new(kind: LineSourceType) -> LineSource {
+//     //     LineSource { kind: kind}
+//     // }
 
-    fn create_from_object(kind: LineSourceType, id: String) -> LineSources{
-        match kind {
-            LineSourceType::User => { LineSources::User { id } },
-            LineSourceType::Group => { LineSources::Group { id } },
-            LineSourceType::Room => { LineSources::Room { id } },
-        }
-    }
-}
+//     fn create_from_object(kind: LineSourceType, id: String) -> LineSources{
+//         match kind {
+//             LineSourceType::User => { LineSources::User { id } },
+//             LineSourceType::Group => { LineSources::Group { id } },
+//             LineSourceType::Room => { LineSources::Room { id } },
+//         }
+//     }
+// }
 
 // struct UserSource {
 //     params: SourceParams
