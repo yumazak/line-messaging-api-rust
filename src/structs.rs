@@ -17,6 +17,10 @@ impl LineBotConfig {
     pub fn get_channel_secret(&self) -> String{
         self.channel_secret.clone()
     }
+
+    pub fn get_channel_token(&self) -> String{
+        self.channel_token.clone()
+    }
 }
 
 #[derive(Serialize, Deserialize)]

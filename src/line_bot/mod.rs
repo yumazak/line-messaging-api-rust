@@ -1,4 +1,5 @@
 use reqwest::Client;
+use reqwest::header::{Authorization, Bearer, ContentType};
 use serialize::hex::ToHex;
 use serialize::base64::{STANDARD, ToBase64};
 use crypto::digest::Digest;
@@ -8,6 +9,7 @@ use crypto::hmac::Hmac;
 use crypto::mac::Mac;
 use serde_json::Value;
 use reqwest::Response; 
+use serde_json;
 
 use std::thread;
 use std::sync::mpsc;
@@ -57,16 +59,12 @@ impl LineBot {
     }
 
     pub fn push(&self, to: &str, msg: Vec<LineMessage>) {
-        let mut messages: Vec<String> = vec![];
-
-        
-
-
-        let mut data = HashMap::new();
-        let json_data = json!(["an", "value"]).to_string();
-        data.insert(String::from("to"), String::from(to));
-        data.insert(String::from("messages"), json_data);
-
+        let mut data = json!({
+            "to": to,
+            "messages": msg
+        });
+        // data.insert(String::from("to"), String::from(to));
+        // data.insert(String::from("messages"), json);
         self.post("/message/push", data, HashMap::new());
     }
 
@@ -112,7 +110,7 @@ impl LineBot {
             _                                           => String::new()
         };
 
-        self.post(&url, HashMap::new(), HashMap::new());
+        self.post(&url, json!({}), HashMap::new());
     }
 
     //i dont know what is options
@@ -125,15 +123,29 @@ impl LineBot {
             .expect(&format!("Failed to get to {}", endpoint))
     }
 
-    pub fn post(&self, endpoint: &str, data: HashMap<String, String>, options: HashMap<String, String>) -> Response{
+    pub fn post(&self, endpoint: &str, data: Value, options: HashMap<String, String>) -> Response{
         let url = format!("{}{}", BASE_URL, endpoint);
-        println!("{}", url);
 
-        self.client.post(&url)
-            .form(&data)
-            .form(&options)            
+        let mut response = self.client.post(&url)
+            .header(
+                Authorization(
+                    Bearer {
+                        token: self.config.get_channel_token()
+                    }
+                )
+            )
+            .json(&data)
             .send()
-            .expect(&format!("Failed to post to {}", endpoint))
+            .expect(&format!("Failed to post to {}", endpoint));
+
+        let mut buf = String::new();
+        response.read_to_string(&mut buf).expect("Failed to read response");
+
+        println!("url: {}", url);
+        println!("body: {}", data);
+        println!("Response: {}", buf);
+        println!("res: {:?}", response);
+        response
     }
 
 }
