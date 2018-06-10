@@ -1,8 +1,7 @@
 use reqwest::Client;
-use reqwest::header::{Authorization, Bearer, ContentType};
+use reqwest::header::{ Authorization, Bearer };
 use reqwest::Response; 
 
-use serialize::hex::ToHex;
 use serialize::base64::{STANDARD, ToBase64};
 
 use crypto::digest::Digest;
@@ -12,29 +11,18 @@ use crypto::hmac::Hmac;
 use crypto::mac::Mac;
 
 use serde_json::Value;
-use serde_json;
 
-use tokio::io;
-use tokio::net::TcpListener;
-use tokio::prelude::*;
-use tokio;
-use futures::sync::mpsc;
-
-use std::thread;
 use std::io::Read;
 use std::collections::HashMap;
 
-
 use models::LineBotConfig;
-use messages::{ LineMessageType, LineMessage };
-use sources::{ LineSourceType, LineSource };
+use messages::LineMessage;
+use sources::{ LineSource, LineSourceType };
 
 static BASE_URL: &'static str = "https://api.line.me/v2/bot";
 
-
 pub struct LineBot {
     pub config: LineBotConfig,
-    // pub listener: TcpListener,
     pub client: Client,
 }
 
@@ -42,7 +30,6 @@ impl LineBot {
     pub fn new(channel_secret: &str, channel_token: &str) -> LineBot {
         LineBot { 
             config: LineBotConfig::new(channel_secret, channel_token),
-            // listener: TcpListener::bind(&addr).expect("unable to bind TCP listener"),
             client: Client::new()
         }
     }
@@ -60,14 +47,11 @@ impl LineBot {
         let mut signature_hashed = Sha1::new();
         signature_hashed.input_str(signature);
 
-        // println!("hmac_hashed: {}", hmac_hashed.result_str());
-        // println!("signature_hashed: {}", signature_hashed.result_str());
-
         hmac_hashed.result_str() == signature_hashed.result_str()
     }
 
     pub fn push(&self, to: &str, msg: Vec<LineMessage>) {
-        let mut data = json!({
+        let data = json!({
             "to": to,
             "messages": msg
         });
@@ -100,7 +84,6 @@ impl LineBot {
         self.get(&endpoint, HashMap::new());
     }
 
-
     // pub fn leave_from_source(&self, source: LineSource) {
     //     match source.kind {
     //         LineSourceType::Group { group_id, user_id } => self.leave(source),
@@ -119,7 +102,6 @@ impl LineBot {
         self.post(&url, json!({}), json!({}));
     }
 
-    //i dont know what is options
     pub fn get(&self, endpoint: &str, options: HashMap<String, String>) -> Response{
         let url = format!("{}{}", BASE_URL, endpoint);
 
@@ -153,6 +135,5 @@ impl LineBot {
         // println!("res: {:?}", response);
         response
     }
-
 }
 

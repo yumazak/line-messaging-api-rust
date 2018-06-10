@@ -2,8 +2,8 @@ use models::Rectangle;
 
 #[derive(Serialize, Deserialize)]
 pub enum ImageActionType {
-    ImagemapURIAction { link_url: String },
-    ImagemapMessageAction {text: String},
+    ImagemapURIAction     { link_url: String },
+    ImagemapMessageAction { text: String },
 }
 
 #[derive(Serialize, Deserialize)]

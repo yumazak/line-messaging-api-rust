@@ -1,12 +1,27 @@
 #[derive(Serialize, Deserialize)]
+#[serde(tag = "type", rename_all = "camelCase")]
 pub enum LineSourceType {
-    User { user_id: String },
-    Group{ group_id: String , user_id: String},
-    Room { room_id: String, user_id: String },
+    User  { 
+        #[serde(rename = "userId")]
+        user_id: String 
+    },
+    Room  { 
+        #[serde(rename = "roomId")]
+        room_id: String, 
+        #[serde(rename = "userId")]
+        user_id: String,
+    },
+    Group {
+        #[serde(rename = "groupId")]
+        group_id: String,
+        #[serde(rename = "userId")]
+        user_id:  String
+    },
 }
 
 #[derive(Serialize, Deserialize)]
 pub struct LineSource {
+    #[serde(flatten, rename = "type")]
     pub kind: LineSourceType,
 }
 

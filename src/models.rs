@@ -1,5 +1,3 @@
-use serde::ser::{Serialize, Serializer, SerializeSeq, SerializeMap};
-
 #[derive(Serialize, Deserialize)]
 pub struct LineBotConfig {
     channel_secret: String,

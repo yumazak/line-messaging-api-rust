@@ -1,25 +1,23 @@
-use serde::ser::{Serialize, Serializer, SerializeStruct};
-
 use actions::ImagemapAction;
 use templates::TemplateComponent;
 
 #[derive(Serialize, Deserialize)]
 #[serde(tag = "type", rename_all = "camelCase")]
 pub enum LineMessageType {
+    Image,
+    Video,
+    Audio,
     Text     { text: String },
-    Image    { },
-    Video    { },
-    Audio    { },
+    Template { alt_text: String, template: TemplateComponent },
     Location { address: String, latitude: f64, longitude: f64 },
     Imagemap { base_url: String, alt_text: String, base_size: u32, actions: Vec<ImagemapAction> },
-    Template { alt_text: String, template: TemplateComponent },
-    File     {
+    File {
         #[serde(rename = "fileName")]
         file_name: String,
         #[serde(rename = "fileSize")]
         file_size: String,
     },
-    Sticker  {
+    Sticker {
         #[serde(rename = "packageId")]
         package_id: String,
         #[serde(rename = "stickerId")]
@@ -29,9 +27,9 @@ pub enum LineMessageType {
 
 #[derive(Serialize, Deserialize)]
 pub struct LineMessage {
-    id:   String,
     #[serde(flatten, rename = "type")]
     kind: LineMessageType,
+    id:   String,
 }
 
 impl LineMessage {
