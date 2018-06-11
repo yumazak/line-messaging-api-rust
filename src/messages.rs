@@ -15,7 +15,7 @@ pub enum LineMessageType {
         #[serde(rename = "fileName")]
         file_name: String,
         #[serde(rename = "fileSize")]
-        file_size: String,
+        file_size: u64,
     },
     Sticker {
         #[serde(rename = "packageId")]
@@ -112,7 +112,7 @@ impl LineMessage {
         }
     }
 
-    pub fn get_file_size(&self) -> Option<String> {
+    pub fn get_file_size(&self) -> Option<u64> {
         match self.kind.clone() {
             LineMessageType::File { file_name, file_size } => Some(file_size),
             _ => None
