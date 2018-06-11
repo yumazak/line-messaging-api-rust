@@ -1,13 +1,13 @@
 use actions::TemplateAction;
 
-#[derive(Serialize, Deserialize)]
+#[derive(Serialize, Deserialize, Clone)]
 pub enum LineTemplateType {
     TemplateButtons  { thumbnail_image_url: String, title: String, text: String, actions: Vec<TemplateAction> },
     TemplateConfirm  { text: String, actions: Vec<TemplateAction> },
     TemplateCarousel { columns: Vec<TemplateColumn> }
 }
 
-#[derive(Serialize, Deserialize)]
+#[derive(Serialize, Deserialize, Clone)]
 pub struct TemplateComponent {
     kind: LineTemplateType
 }
@@ -18,7 +18,7 @@ impl TemplateComponent {
     }
 }
 
-#[derive(Serialize, Deserialize)]
+#[derive(Serialize, Deserialize, Clone)]
 pub struct TemplateColumn {
     thumbnail_image_url: String,
     title:               String,

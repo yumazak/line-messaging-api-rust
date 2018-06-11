@@ -1,4 +1,4 @@
-#[derive(Serialize, Deserialize)]
+#[derive(Serialize, Deserialize, Clone)]
 pub struct LineBotConfig {
     channel_secret: String,
     channel_token:  String,
@@ -21,7 +21,7 @@ impl LineBotConfig {
     }
 }
 
-#[derive(Serialize, Deserialize)]
+#[derive(Serialize, Deserialize, Clone)]
 pub struct Rectangle {
     x:      u32,
     y:      u32,

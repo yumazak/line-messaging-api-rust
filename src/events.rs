@@ -1,17 +1,19 @@
 use serde_json::Value;
 
+use std::cell::RefCell;
+
 use bot::LineBot;
 use sources::LineSource;
 use messages::LineMessage;
 
-#[derive(Serialize, Deserialize)]
+#[derive(Serialize, Deserialize, Clone)]
 #[serde(tag = "type", rename_all = "camelCase")]
 pub enum LineEventType {
     Unfollow,
     Leave,
 }
 
-#[derive(Serialize, Deserialize)]
+#[derive(Serialize, Deserialize, Clone)]
 pub struct LineEvent {
     kind:      LineEventType,
     timestamp: u32,
@@ -27,39 +29,39 @@ impl LineEvent {
 
 
 
-#[derive(Serialize, Deserialize)]
+#[derive(Serialize, Deserialize, Clone)]
 pub enum PostBackParams {
     Date { date: String },
     Time { time: String },
     Datetime { datetime: String },
 }
 
-#[derive(Serialize, Deserialize)]
+#[derive(Serialize, Deserialize, Clone)]
 pub struct PostBack {
     data:   String,
     params: PostBackParams,
 }
 
-#[derive(Serialize, Deserialize)]
+#[derive(Serialize, Deserialize, Clone)]
 pub enum BeaconEventType {
     Enter,
     Leave,
     Banner,
 }
 
-#[derive(Serialize, Deserialize)]
+#[derive(Serialize, Deserialize, Clone)]
 pub struct Beacon {
     hwid: String,
     kind: BeaconEventType,
 }
 
-#[derive(Serialize, Deserialize)]
+#[derive(Serialize, Deserialize, Clone)]
 pub struct Link {
     result: String,
     nonce:  String,
 }
 
-#[derive(Serialize, Deserialize)]
+#[derive(Serialize, Deserialize, Clone)]
 #[serde(tag = "type", rename_all = "camelCase")]
 pub enum ReplyableEventType {
     Message       { message: LineMessage },
@@ -71,14 +73,14 @@ pub enum ReplyableEventType {
 }
 
 
-#[derive(Serialize, Deserialize)]
+#[derive(Serialize, Deserialize, Clone)]
 pub struct ReplyableEvent {
     #[serde(flatten, rename = "type")]  
-    kind: ReplyableEventType,
-    timestamp: u64,
-    source: LineSource,
+    pub kind: ReplyableEventType,
+    pub timestamp: u64,
+    pub source: LineSource,
     #[serde(rename = "replyToken")]
-    reply_token: String,
+    pub reply_token: String,
 }
 
 impl ReplyableEvent {
@@ -100,5 +102,12 @@ impl ReplyableEvent {
             "messages": msg
         });
         bot.post("/message/reply", data, json!({}));
+    }
+
+    pub fn get_message(&self) -> Option<LineMessage> {
+        match self.kind.clone() {
+            ReplyableEventType::Message { message } => Some(message),
+            _ => None
+        }
     }
 }

@@ -1,4 +1,4 @@
-#[derive(Serialize, Deserialize)]
+#[derive(Serialize, Deserialize, Clone)]
 #[serde(tag = "type", rename_all = "camelCase")]
 pub enum LineSourceType {
     User  { 
@@ -19,7 +19,7 @@ pub enum LineSourceType {
     },
 }
 
-#[derive(Serialize, Deserialize)]
+#[derive(Serialize, Deserialize, Clone)]
 pub struct LineSource {
     #[serde(flatten, rename = "type")]
     pub kind: LineSourceType,
