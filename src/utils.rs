@@ -5,6 +5,16 @@ use serde_json::value::Value;
 
 use events::{ ReplyableEvent };
 
+pub fn is_replyable(data: &str) -> bool {
+    let events: Value = match serde_json::from_str(data) {
+        Ok(events) => events,
+        Err(_) => return false,
+    };
+
+    println!("{}", serde_json::to_string(&events["events"][0]["replyToken"]).unwrap());
+    serde_json::to_string(&events["events"][0]["replyToken"]).unwrap() != "null"
+}
+
 pub fn to_events<'a, T>(data: &str) -> Result<T, String>
 where for<'de> T: Deserialize<'de>, 
 {
