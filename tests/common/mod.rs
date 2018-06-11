@@ -37,3 +37,27 @@ pub fn get_test_image() -> String {
         "#
     )
 }
+
+pub fn get_test_video() -> String {
+    String::from(
+        r#"
+            {"events":[{"type":"message","replyToken":"c03cce4ba8514cf49b2139c26c6c7486","source":{"userId":"Ua2829b4c5a9b21984c091fc0b641fa8f","type":"user"},"timestamp":1528732060803,"message":{"type":"video","id":"8100347360051"}}]}
+        "#
+    )
+}
+
+pub fn get_test_audio() -> String {
+    String::from(
+        r#"
+            {"events":[{"type":"message","replyToken":"e8355dc0634b4e6097d0365454610643","source":{"userId":"Ua2829b4c5a9b21984c091fc0b641fa8f","type":"user"},"timestamp":1528732180464,"message":{"type":"audio","id":"8100354340055"}}]}
+        "#
+    )
+}
+
+pub fn get_test_file() -> String {
+    String::from(
+        r#"
+            {"events" :[{"replyToken": "nHuyWiB7yP5Zw52FIkcQobQuGDXCTA","type": "message","timestamp": 1462629479859,"source": {"type": "user","userId": "U4af4980629..."},"message": {"id": "325708","type": "file","fileName": "file.txt","fileSize": 2138}}]}
+        "#
+    )
+}

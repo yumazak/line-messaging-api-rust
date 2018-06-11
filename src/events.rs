@@ -15,13 +15,14 @@ pub enum LineEventType {
 
 #[derive(Serialize, Deserialize, Clone)]
 pub struct LineEvent {
+    #[serde(flatten, rename = "type")]  
     kind:      LineEventType,
-    timestamp: u32,
+    timestamp: u64,
     source:    LineSource,
 }
 
 impl LineEvent {
-    pub fn new (kind: LineEventType, timestamp: u32, source: LineSource) -> LineEvent {
+    pub fn new (kind: LineEventType, timestamp: u64, source: LineSource) -> LineEvent {
         LineEvent { kind, timestamp, source }
     }
 
@@ -65,8 +66,8 @@ pub struct Link {
 #[serde(tag = "type", rename_all = "camelCase")]
 pub enum ReplyableEventType {
     Message       { message: LineMessage },
-    PostbackEvent { postback: Value },
-    BeaconEvent   { beacon: Beacon },
+    Postback      { postback: Value },
+    Beacon        { beacon: Beacon },
     AccountLink   { link: Link },
     Follow,
     Join,

@@ -1,6 +1,6 @@
 extern crate line_messaging_api_rust as line;
 
-use line::events::ReplyableEvent;
+use line::events::{ LineEvent, ReplyableEvent };
 use line::utils;
 
 use common;
@@ -16,5 +16,11 @@ fn text_message_test() {
 #[test]
 fn image_test() {
     let data = common::get_test_image();
+    let content: ReplyableEvent = utils::to_events(&data).unwrap();
+}
+
+#[test]
+fn file_test() {
+    let data = common::get_test_file();
     let content: ReplyableEvent = utils::to_events(&data).unwrap();
 }
