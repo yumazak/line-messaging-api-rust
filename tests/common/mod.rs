@@ -61,3 +61,66 @@ pub fn get_test_file() -> String {
         "#
     )
 }
+
+pub fn get_test_location() -> String {
+    String::from(
+        r#"
+            {"events" :[{"replyToken": "nHuyWiB7yP5Zw52FIkcQobQuGDXCTA","type": "message","timestamp": 1462629479859,"source": {"type": "user","userId": "U4af4980629..."},"message": {"id": "325708","type": "file","fileName": "file.txt","fileSize": 2138}}]}    
+        "#
+    )
+}
+
+pub fn get_test_follow() -> String {
+    String::from(
+        r#"
+            {"events" :[{"replyToken": "nHuyWiB7yP5Zw52FIkcQobQuGDXCTA","type": "message","timestamp": 1462629479859,"source": {"type": "user","userId": "U4af4980629..."},"message": {"id": "325708","type": "file","fileName": "file.txt","fileSize": 2138}}]}    
+        "#
+    )
+}
+
+pub fn get_test_unfollow() -> String {
+    String::from(
+        r#"
+            {"events": [{"type": "unfollow","timestamp": 1462629479859,"source": {"type": "user","userId": "U4af4980629..."}}]}
+        "#
+    )
+}
+
+pub fn get_test_join() -> String {
+    String::from(
+        r#"
+            {"events": [{"replyToken": "nHuyWiB7yP5Zw52FIkcQobQuGDXCTA","type": "join","timestamp": 1462629479859,"source": {"type": "group","groupId": "C4af4980629..."}}]}
+        "#
+    )
+}
+
+pub fn get_test_leave() -> String {
+    String::from(
+        r#"
+            {"events":[{"type":"leave","source":{"groupId":"C4991a36653054b7525ac684337557e23","type":"group"},"timestamp":1528734310446}]}
+        "#
+    )
+}
+
+pub fn get_test_postback() -> String {
+    String::from(
+        r#"
+            {"events": [{"type":"postback","replyToken":"b60d432864f44d079f6d8efe86cf404b","source":{"userId":"U91eeaf62d...","type":"user"},"timestamp":1513669370317,"postback":{"data":"storeId=12345","params":{"datetime":"2017-12-25T01:00"}}}]}
+        "#
+    )
+}
+
+pub fn get_test_beacon() -> String {
+    String::from(
+        r#"
+            {"events": [{"replyToken": "nHuyWiB7yP5Zw52FIkcQobQuGDXCTA","type": "beacon","timestamp": 1462629479859,"source": {"type": "user","userId": "U4af4980629..."},"beacon": {"hwid": "d41d8cd98f","type": "enter"}}]}
+        "#
+    )
+}
+pub fn get_test_account_link() -> String {
+    String::from(
+        r#"
+            {"events": [{"type": "accountLink","replyToken": "b60d432864f44d079f6d8efe86cf404b","source": {"userId": "U91eeaf62d...","type": "user"},"timestamp": 1513669370317,"link": {"result": "ok","nonce": "xxxxxxxxxxxxxxx"}}]}
+        "#
+    )
+}

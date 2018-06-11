@@ -11,7 +11,7 @@ use serde_json::{Value, Error};
 
 pub mod common;
 pub mod utils_test;
-pub mod messages_test;
+pub mod events_test;
 
 #[test]
 fn hamc_test() {
@@ -55,7 +55,7 @@ fn get_test() {
 }
 
 #[test]
-fn events_test() {
+fn event_test() {
     let message = LineMessage::new(
         "",
         LineMessageType::Text{ text: String::from("Hello")},
