@@ -1,4 +1,4 @@
-#[derive(Serialize, Deserialize, Clone)]
+#[derive(Debug, Serialize, Deserialize, Clone)]
 #[serde(tag = "type", rename_all = "camelCase")]
 pub enum LineSourceType {
     User  { 
@@ -14,7 +14,7 @@ pub enum LineSourceType {
     Group {
         #[serde(rename = "groupId")]
         group_id: String,
-        #[serde(rename = "userId")]
+        #[serde(rename = "userId", default)]
         user_id:  String
     },
 }
