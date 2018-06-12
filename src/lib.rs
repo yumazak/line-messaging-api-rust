@@ -1,9 +1,10 @@
-extern crate rustc_serialize as serialize;
 extern crate reqwest;
-extern crate crypto;
 extern crate serde;
 extern crate tokio;
 extern crate bytes;
+extern crate base64;
+extern crate hmac;
+extern crate sha2;
 
 #[macro_use]
 extern crate serde_derive;
