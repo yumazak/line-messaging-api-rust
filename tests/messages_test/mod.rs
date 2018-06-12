@@ -1,6 +1,10 @@
 extern crate line_messaging_api_rust as line;
 extern crate serde_json;
 
+use line::flex_message::styles::{ Style, BlockStyle, BubbleStyle };
+use line::flex_message::component_builder::ComponentBuilder;
+use line::flex_message::components::Component;
+use line::flex_message::containers::FlexContainer;
 use line::messages::LineMessage;
 use line::actions::{ ImagemapAction, Action };
 use line::templates::{ TemplateComponent, TemplateColumn, ImageColumn };
@@ -163,5 +167,23 @@ fn push_image_carousel_template_test() {
 
     println!("message: {}\n", serde_json::to_string(&message).unwrap());
     
+    common::push_message(message);
+}
+
+#[test]
+pub fn push_flex_text() {
+    let text = ComponentBuilder::new()
+                    .set_text("first_bubble")
+                    .build_text();
+    let box1  = ComponentBuilder::new()
+                    .set_layout("vertical")
+                    .set_contents(vec![text.clone()])
+                    .build_box();
+    let bubble = FlexContainer::create_bubble("", Component::create_empty(), Component::create_empty(), box1, Component::create_empty(), Style::Empty);
+
+    let carousel = FlexContainer::create_carusel(vec![bubble.clone(), bubble.clone()]);
+
+    let message = LineMessage::create_flex("", "this is a flex", carousel);
+
     common::push_message(message);
 }

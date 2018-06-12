@@ -289,4 +289,14 @@ impl LineMessage {
             }
         }
     }
+
+    pub fn create_flex(id: &str, alt_text: &str, contents: FlexContainer) -> LineMessage {
+        LineMessage {
+            id: String::from(id),
+            kind: LineMessageType::Flex {
+                alt_text: String::from(alt_text),
+                contents,
+            }
+        }
+    }
 }

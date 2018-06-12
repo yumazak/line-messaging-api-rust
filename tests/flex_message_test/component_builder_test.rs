@@ -4,6 +4,26 @@ extern crate serde_json;
 use line::flex_message::components::Component;
 use line::flex_message::component_builder::ComponentBuilder;
 use line::actions::Action;
+
+#[test]
+// #[ignore]
+fn box_component_test() {
+    let image     = ComponentBuilder::new()
+                        .set_url("https://example.com/flex/images/image.jpg")
+                        .build_image();
+    let separator = ComponentBuilder::new().build_separator();
+    let text      = ComponentBuilder::new()
+                        .set_text("Text in the box")
+                        .build_text();
+    let contents  = vec![image, separator, text];
+    let component = ComponentBuilder::new()
+                        .set_layout("vertical")
+                        .set_contents(contents)
+                        .build_box();
+
+    println!("{}", serde_json::to_string(&component).unwrap());
+}
+
 #[test]
 #[ignore]
 fn button_component_test() {
@@ -57,7 +77,7 @@ fn spacer_component_test() {
 }
 
 #[test]
-// #[ignore]
+#[ignore]
 fn text_component_test() {
     let component   = ComponentBuilder::new()
                         .set_text("Hello, world")

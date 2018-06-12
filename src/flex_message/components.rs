@@ -55,6 +55,7 @@ pub enum ComponentType {
         aspect_mode     : String,
         #[serde(rename = "backgroundColor", skip_serializing_if = "String::is_empty")]
         background_color: String,
+        #[serde(skip_serializing_if = "Action::is_empty")]
         action          : Action,
     },
     Separator {
@@ -68,14 +69,21 @@ pub enum ComponentType {
         size: String        
     },
     Text {
+        #[serde(skip_serializing_if = "String::is_empty")]
         text    : String,
         flex    : u64,
+        #[serde(skip_serializing_if = "String::is_empty")]
         margin  : String,
+        #[serde(skip_serializing_if = "String::is_empty")]
         size    : String,
+        #[serde(skip_serializing_if = "String::is_empty")]
         align   : String,
+        #[serde(skip_serializing_if = "String::is_empty")]
         gravity : String,
         wrap    : bool,
+        #[serde(skip_serializing_if = "String::is_empty")]
         weight  : String,
+        #[serde(skip_serializing_if = "String::is_empty")]
         color   : String,
     },
     Empty,

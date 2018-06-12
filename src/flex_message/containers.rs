@@ -15,16 +15,17 @@ pub enum FlexContainerType {
         body     : Component,
         #[serde(skip_serializing_if = "Component::is_empty")]
         footer   : Component,
-        #[serde(skip_serializing_if = "Vec::is_empty")]
-        styles   : Vec<Style>,
+        #[serde(skip_serializing_if = "Style::is_empty")]
+        styles   : Style,
     },
     Carousel {
-        contents: Vec<FlexContainerType>
+        contents: Vec<FlexContainer>
     }
 }
 
 #[derive(Serialize, Deserialize, Clone)]
 pub struct FlexContainer {
+    #[serde(flatten)]
     kind: FlexContainerType
 }
 
@@ -33,11 +34,11 @@ impl FlexContainer {
         FlexContainer { kind }
     }
 
-    pub fn create_bubble(direction: &str, header: Component, hero: Component, body: Component, footer: Component, styles: Vec<Style>) -> FlexContainer {
+    pub fn create_bubble(direction: &str, header: Component, hero: Component, body: Component, footer: Component, styles: Style) -> FlexContainer {
         FlexContainer { kind: FlexContainerType::Bubble { direction: String::from(direction), header, hero, body, footer, styles } }
     }
 
-    pub fn create_Carusel(contents: Vec<FlexContainerType>) -> FlexContainer {
+    pub fn create_carusel(contents: Vec<FlexContainer>) -> FlexContainer {
         FlexContainer { kind: FlexContainerType::Carousel { contents }}
     }
 }

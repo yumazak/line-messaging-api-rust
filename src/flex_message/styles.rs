@@ -2,8 +2,7 @@
 pub struct BlockStyle {
     #[serde(rename = "backgroundColor", skip_serializing_if = "String::is_empty")]
     background_color: String,
-    #[serde(skip_serializing_if = "String::is_empty")]
-    separator       : String,
+    separator       : bool,
     #[serde(rename = "separatorColor", skip_serializing_if = "String::is_empty")]
     separator_color : String,
     #[serde(skip)]
@@ -11,10 +10,10 @@ pub struct BlockStyle {
 }
 
 impl BlockStyle {
-    pub fn new(background_color: &str, separator: &str, separator_color: &str) -> BlockStyle {
+    pub fn new(background_color: &str, separator: bool, separator_color: &str) -> BlockStyle {
         BlockStyle {
             background_color: String::from(background_color),
-            separator       : String::from(separator),
+            separator,
             separator_color : String::from(separator_color),
             is_empty        : false,
         }
@@ -23,7 +22,7 @@ impl BlockStyle {
     pub fn create_empty() -> BlockStyle {
         BlockStyle {
             background_color: String::new(),
-            separator       : String::new(),
+            separator       : false,
             separator_color : String::new(),
             is_empty        : true,
         }
@@ -65,9 +64,20 @@ impl BubbleStyle {
 }
 
 #[derive(Serialize, Deserialize, Clone)]
+#[serde(untagged)]
 pub enum Style {
-    Bubble { style: BubbleStyle},
-    BlockStyle { style: BlockStyle },
+    Bubble { styles: BubbleStyle },
+    BlockStyle { styles: BlockStyle },
+    Empty,
+}
+
+impl Style {
+    pub fn is_empty(&self) -> bool {
+        match self {
+            Style::Empty => true,
+            _            => false
+        }
+    }
 }
 
 // #[derive(Serialize, Deserialize, Clone)]
