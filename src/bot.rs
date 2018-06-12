@@ -45,7 +45,17 @@ impl LineBot {
         expect_signature == signature
     }
 
-    pub fn push(&self, to: &str, msg: Vec<LineMessage>) {
+    pub fn push_message(&self, to: &str, msg: LineMessage) {
+        let messages = vec![msg];
+        let data = json!({
+            "to": to,
+            "messages": messages
+        });
+
+        self.post("/message/push", data, json!({}));
+    }
+
+    pub fn push_messages(&self, to: &str, msg: Vec<LineMessage>) {
         let data = json!({
             "to": to,
             "messages": msg
@@ -124,10 +134,10 @@ impl LineBot {
         let mut buf = String::new();
         response.read_to_string(&mut buf).expect("Failed to read response");
 
-        // println!("url: {}", url);
-        // println!("body: {}", data);
-        // println!("Response: {}", buf);
-        // println!("res: {:?}", response);
+        println!("url: {}", url);
+        println!("body: {}", data);
+        println!("Response: {}", buf);
+        println!("res: {:?}", response);
         response
     }
 }

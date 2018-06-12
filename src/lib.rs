@@ -23,3 +23,4 @@ pub mod sources;
 pub mod templates;
 pub mod models;
 pub mod utils;
+pub mod flex_message;

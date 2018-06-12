@@ -23,9 +23,9 @@ impl LineBotConfig {
 
 #[derive(Serialize, Deserialize, Clone)]
 pub struct Rectangle {
-    x:      u32,
-    y:      u32,
-    width:  u32,
-    height: u32
+    pub x:      u64,
+    pub y:      u64,
+    pub width:  u64,
+    pub height: u64
 }
 

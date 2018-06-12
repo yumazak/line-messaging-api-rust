@@ -4,6 +4,7 @@ extern crate serde_json;
 use common::serde_json::value::Value;
 
 use line::bot::LineBot;
+use line::messages::LineMessage;
 
 use std::fs::File;
 use std::io::prelude::*;
@@ -19,6 +20,20 @@ pub fn get_bot() -> LineBot {
         &config["channel_secret"].as_str().unwrap(),
         &config["channel_token"].as_str().unwrap(),
     )
+}
+
+pub fn get_user_id() -> String {
+    let mut f = File::open("tests/common/config.json").unwrap();
+    let mut buffer = Vec::new();
+    f.read_to_end(&mut buffer).unwrap();
+    let config: Value = serde_json::from_slice(&buffer).unwrap();
+    String::from(config["user_id"].as_str().unwrap())
+}
+
+pub fn push_message(message: LineMessage) {
+    let bot     = get_bot();
+    let user_id = get_user_id();
+    bot.push_message(&user_id, message);
 }
 
 pub fn get_test_text() -> String {

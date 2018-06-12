@@ -12,6 +12,7 @@ use serde_json::{Value, Error};
 pub mod common;
 pub mod utils_test;
 pub mod events_test;
+pub mod messages_test;
 
 #[test]
 fn url_test() {
@@ -44,7 +45,5 @@ fn get_test() {
     let bot = common::get_bot();
 
     let message = LineMessage::new("", LineMessageType::Text{ text: String::from("Hello") });
-    let messages = vec![message];
-    println!("{}", messages.len());
-    bot.push("Ua2829b4c5a9b21984c091fc0b641fa8f", messages);        
+    bot.push_message("Ua2829b4c5a9b21984c091fc0b641fa8f", message);        
 }
