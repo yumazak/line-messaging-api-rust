@@ -45,7 +45,7 @@ impl ImagemapAction {
 
 #[derive(Serialize, Deserialize, Clone)]
 #[serde(tag = "type", rename_all = "camelCase")]
-pub enum TemplateActionType {
+pub enum ActionType {
     Message { text: String },
     Uri { uri: String },
     Postback { 
@@ -61,53 +61,61 @@ pub enum TemplateActionType {
         initial: String,
         max    : String,
         min    : String,
-    }
+    },
+    Empty,
 }
 
 #[derive(Serialize, Deserialize, Clone)]
-pub struct TemplateAction {
+pub struct Action {
     #[serde(flatten)]
-    kind:  TemplateActionType,
+    kind:  ActionType,
     label: String,
 }
 
-impl TemplateAction {
-    pub fn new(kind: TemplateActionType, label: &str) -> TemplateAction {
-        TemplateAction { kind, label: String::from(label) }
+impl Action {
+    pub fn new(kind: ActionType, label: &str) -> Action { Action { kind, label: String::from(label) } }
+
+    pub fn create_empty() -> Action { Action { kind: ActionType::Empty, label: String::new() }}
+
+    pub fn is_empty(&self) -> bool {
+        match self.kind {
+            ActionType::Empty => true,
+            _                 => false,
+        }
     }
 
-    pub fn create_message(label: &str, text: &str) -> TemplateAction {
-        TemplateAction { label: String::from(label), kind: TemplateActionType::Message { text: String::from(text)} }
+    pub fn create_message(label: &str, text: &str) -> Action {
+        Action { label: String::from(label), kind: ActionType::Message { text: String::from(text)} }
     }
 
-    pub fn create_uri(label: &str, uri: &str) -> TemplateAction {
-        TemplateAction { label: String::from(label), kind: TemplateActionType::Uri { uri: String::from(uri)} }
+    pub fn create_uri(label: &str, uri: &str) -> Action {
+        Action { label: String::from(label), kind: ActionType::Uri { uri: String::from(uri)} }
     }
 
-    pub fn create_postback(label: &str, data: &str) -> TemplateAction {
-        TemplateAction {
+    pub fn create_postback(label: &str, data: &str) -> Action {
+        Action {
             label: String::from(label),
-            kind: TemplateActionType::Postback {
+            kind: ActionType::Postback {
                 data        : String::from(data),
                 display_text: String::new(),
                 text        : String::new(),
             }
         }
     }
-    pub fn create_postback_with_display_text(label: &str, data: &str, display_text: &str, text: &str) -> TemplateAction {
-        TemplateAction {
+    pub fn create_postback_with_display_text(label: &str, data: &str, display_text: &str, text: &str) -> Action {
+        Action {
             label: String::from(label),
-            kind: TemplateActionType::Postback {
+            kind: ActionType::Postback {
                 data        : String::from(data),
                 display_text: String::from(display_text),
                 text        : String::new(),
             }
         }
     }
-    pub fn create_postback_with_text(label: &str, data: &str, text: &str) -> TemplateAction {
-        TemplateAction {
+    pub fn create_postback_with_text(label: &str, data: &str, text: &str) -> Action {
+        Action {
             label: String::from(label),
-            kind: TemplateActionType::Postback {
+            kind: ActionType::Postback {
                 data        : String::from(data),
                 display_text: String::new(),
                 text        : String::from(text),
@@ -115,10 +123,10 @@ impl TemplateAction {
         }
     }
 
-    pub fn create_datetimepicker(label: &str, data: &str, mode: &str, initial: &str, max: &str, min: &str) -> TemplateAction {
-        TemplateAction {
+    pub fn create_datetimepicker(label: &str, data: &str, mode: &str, initial: &str, max: &str, min: &str) -> Action {
+        Action {
             label: String::from(label),
-            kind: TemplateActionType::Datetimepicker {
+            kind: ActionType::Datetimepicker {
                 data   : String::from(data),
                 mode   : String::from(mode),
                 initial: String::from(initial),
