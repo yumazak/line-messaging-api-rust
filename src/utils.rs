@@ -11,7 +11,6 @@ pub fn is_replyable(data: &str) -> bool {
         Err(_) => return false,
     };
 
-    println!("{}", serde_json::to_string(&events["events"][0]["replyToken"]).unwrap());
     serde_json::to_string(&events["events"][0]["replyToken"]).unwrap() != "null"
 }
 
