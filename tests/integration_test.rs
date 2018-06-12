@@ -13,6 +13,7 @@ pub mod common;
 pub mod utils_test;
 pub mod events_test;
 pub mod messages_test;
+pub mod flex_message_test;
 
 #[test]
 fn url_test() {

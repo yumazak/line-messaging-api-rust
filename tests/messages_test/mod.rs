@@ -2,7 +2,7 @@ extern crate line_messaging_api_rust as line;
 extern crate serde_json;
 
 use line::messages::LineMessage;
-use line::actions::{ ImagemapAction, TemplateAction };
+use line::actions::{ ImagemapAction, Action };
 use line::templates::{ TemplateComponent, TemplateColumn, ImageColumn };
 use common;
 
@@ -71,10 +71,10 @@ fn push_imagemap_message_test() {
 #[test]
 #[ignore]
 fn push_button_template_test() {
-    let uri: TemplateAction = TemplateAction::create_uri("View detail", "action=buy&itemid=123");
-    let action1 = TemplateAction::create_postback("Buy", "action=buy&itemid=123");
-    let action2 = TemplateAction::create_postback("Add to cart", "action=buy&itemid=123");
-    let action3 = TemplateAction::create_postback("View detail", "action=buy&itemid=123");
+    let uri: Action = Action::create_uri("View detail", "action=buy&itemid=123");
+    let action1 = Action::create_postback("Buy", "action=buy&itemid=123");
+    let action2 = Action::create_postback("Add to cart", "action=buy&itemid=123");
+    let action3 = Action::create_postback("View detail", "action=buy&itemid=123");
     println!("uri: {}\n", serde_json::to_string(&uri).unwrap());
     println!("action1: {}\n", serde_json::to_string(&action1).unwrap());
 
@@ -98,8 +98,8 @@ fn push_button_template_test() {
 #[test]
 #[ignore]
 fn push_confirm_template_test() {
-    let message_action1: TemplateAction = TemplateAction::create_message("Yes", "yes");
-    let message_action2: TemplateAction = TemplateAction::create_message("No", "no");
+    let message_action1: Action = Action::create_message("Yes", "yes");
+    let message_action2: Action = Action::create_message("No", "no");
     let actions = vec![message_action1, message_action2];
     println!("default_action: {}\n", serde_json::to_string(&actions).unwrap());
 
@@ -118,9 +118,9 @@ fn push_confirm_template_test() {
 #[test]
 #[ignore]
 fn push_carousel_template_test() {
-    let action1 = TemplateAction::create_postback("Buy", "action=buy&itemid=123");
-    let action2 = TemplateAction::create_postback("Add to cart", "action=buy&itemid=123");
-    let action3 = TemplateAction::create_postback("View detail", "action=buy&itemid=123");
+    let action1 = Action::create_postback("Buy", "action=buy&itemid=123");
+    let action2 = Action::create_postback("Add to cart", "action=buy&itemid=123");
+    let action3 = Action::create_postback("View detail", "action=buy&itemid=123");
     let actions = vec![action1, action2, action3];
     let column1 = TemplateColumn::new("https://example.com/bot/images/item1.jpg", "#FFFFFF", "this is menu", "description", Vec::new(), actions);
 
@@ -144,7 +144,7 @@ fn push_carousel_template_test() {
 #[test]
 // #[ignore]
 fn push_image_carousel_template_test() {
-    let action1 = TemplateAction::create_postback("Buy", "action=buy&itemid=123");
+    let action1 = Action::create_postback("Buy", "action=buy&itemid=123");
 
     let column1 = ImageColumn::new("https://example.com/bot/images/item1.jpg", action1);
 
