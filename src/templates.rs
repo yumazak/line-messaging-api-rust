@@ -1,9 +1,9 @@
-use actions::TemplateAction;
+use actions::Action;
 
 #[derive(Serialize, Deserialize, Clone)]
 #[serde(tag = "type",rename_all = "snake_case")]
 pub enum TemplateType {
-    Confirm  { text: String, actions: Vec<TemplateAction> },    
+    Confirm  { text: String, actions: Vec<Action> },    
     Buttons  {
         #[serde(rename = "thumbnailImageUrl")]
         thumbnail_image_url   : String,
@@ -15,8 +15,8 @@ pub enum TemplateType {
         image_background_color: String,
         title                 : String,
         text                  : String,
-        default_actions       : Vec<TemplateAction>,
-        actions               : Vec<TemplateAction>,
+        default_actions       : Vec<Action>,
+        actions               : Vec<Action>,
     },
     Carousel {
         columns           : Vec<TemplateColumn>,
@@ -41,12 +41,12 @@ impl TemplateComponent {
         TemplateComponent { kind }
     }
 
-    pub fn create_confirm(text: &str, actions: Vec<TemplateAction>) -> TemplateComponent {
+    pub fn create_confirm(text: &str, actions: Vec<Action>) -> TemplateComponent {
         TemplateComponent { kind: TemplateType::Confirm{ text: String::from(text), actions } }      
     }
 
     pub fn create_buttons(thumbnail_image_url: &str, image_aspect_ratio: &str, image_size: &str, image_background_color: &str,
-        title: &str, text: &str, default_actions: Vec<TemplateAction>, actions: Vec<TemplateAction>,) -> TemplateComponent
+        title: &str, text: &str, default_actions: Vec<Action>, actions: Vec<Action>,) -> TemplateComponent
     {
         TemplateComponent {
             kind: TemplateType::Buttons {
@@ -72,13 +72,13 @@ impl TemplateComponent {
         }
     }
 
-    pub fn create_image_carousel(columns: Vec<FlexContainer>) -> TemplateComponent {
+    pub fn create_image_carousel(columns: Vec<ImageColumn>) -> TemplateComponent {
         TemplateComponent { kind: TemplateType::ImageCarousel { columns } }
     }
 
-    pub fn create_image_carousel(contents: Vec<FlexMessage>) -> TemplateComponent {
-        TemplateComponent { kind: TemplateType::Flex { contents } }
-    }
+    // pub fn create_image_carousel(contents: Vec<FlexMessage>) -> TemplateComponent {
+    //     TemplateComponent { kind: TemplateType::Flex { contents } }
+    // }
 
 
 }
@@ -92,12 +92,12 @@ pub struct TemplateColumn {
     title                 : String,
     text                  : String,
     #[serde(skip_serializing_if = "Vec::is_empty")]    
-    default_actions       : Vec<TemplateAction>,
-    actions               : Vec<TemplateAction>,
+    default_actions       : Vec<Action>,
+    actions               : Vec<Action>,
 }
 
 impl TemplateColumn {
-    pub fn new(thumbnail_image_url: &str, image_background_color: &str, title: &str, text: &str, default_actions: Vec<TemplateAction>, actions: Vec<TemplateAction>) -> TemplateColumn {
+    pub fn new(thumbnail_image_url: &str, image_background_color: &str, title: &str, text: &str, default_actions: Vec<Action>, actions: Vec<Action>) -> TemplateColumn {
         TemplateColumn {
             thumbnail_image_url   : String::from(thumbnail_image_url),
             image_background_color: String::from(image_background_color),
@@ -113,11 +113,11 @@ impl TemplateColumn {
 pub struct ImageColumn {
     #[serde(rename = "imageUrl")]
     image_url: String,
-    action  : TemplateAction,
+    action  : Action,
 }
 
 impl ImageColumn {
-    pub fn new(image_url: &str, action: TemplateAction) -> ImageColumn {
+    pub fn new(image_url: &str, action: Action) -> ImageColumn {
         ImageColumn { image_url: String::from(image_url), action }
     }
 }
