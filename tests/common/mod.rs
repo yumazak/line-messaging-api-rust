@@ -14,11 +14,10 @@ pub fn get_bot() -> LineBot {
     let mut f = File::open("tests/common/config.json").unwrap();
     let mut buffer = Vec::new();
     f.read_to_end(&mut buffer).unwrap();
-
     let config: Value = serde_json::from_slice(&buffer).unwrap();
     LineBot::new(
-        &serde_json::to_string(&config["channel_secret"]).unwrap(),
-        &serde_json::to_string(&config["channel_token"]).unwrap(),
+        &config["channel_secret"].as_str().unwrap(),
+        &config["channel_token"].as_str().unwrap(),
     )
 }
 

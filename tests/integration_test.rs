@@ -14,12 +14,6 @@ pub mod utils_test;
 pub mod events_test;
 
 #[test]
-fn hamc_test() {
-    let bot = LineBot::new("secret key", "this is a pen.");
-    assert_eq!(false, bot.check_signature("a", "This is a pen."));
-}
-
-#[test]
 fn url_test() {
     let bot = LineBot::new("secret key", "this is a pen.");
     // let message = LineMessage::new("testid", LineMessageType::Text, "hi");
