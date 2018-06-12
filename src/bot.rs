@@ -2,14 +2,6 @@ use reqwest::Client;
 use reqwest::header::{ Authorization, Bearer };
 use reqwest::Response; 
 
-use serialize::base64::{STANDARD, ToBase64};
-
-use crypto::digest::Digest;
-use crypto::sha2::Sha256;
-use crypto::sha1::Sha1;
-use crypto::hmac::Hmac;
-use crypto::mac::Mac;
-
 use serde_json::Value;
 
 use std::io::Read;
@@ -34,20 +26,23 @@ impl LineBot {
         }
     }
 
-    pub fn check_signature(&self, signature: &str, body: &str) -> bool {
-        let mut hmac = Hmac::new(
-            Sha256::new(), 
-            self.config.get_channel_secret().as_bytes()
-        );
-        hmac.input(body.as_bytes());
+    pub fn check_signature(&self, body: &str, signature: &str) -> bool {
+        use sha2::Sha256;
+        use hmac::{Hmac, Mac};
+        use base64::encode;
+        type HmacSha256 = Hmac<Sha256>;
 
-        let mut hmac_hashed = Sha1::new();
-        hmac_hashed.input_str(&hmac.result().code().to_base64(STANDARD));
+        let mut mac = HmacSha256::new_varkey(self.config.get_channel_secret().as_bytes())
+            .expect("HMAC can take key of any size");
+        mac.input(body.as_bytes());
+        let result = mac.result();
+        let expect_signature  = encode(&result.code().to_vec());
 
-        let mut signature_hashed = Sha1::new();
-        signature_hashed.input_str(signature);
-
-        hmac_hashed.result_str() == signature_hashed.result_str()
+        // println!("secret: {}", self.config.get_channel_secret());
+        // println!("body: {}", body);
+        // println!("expect_sig: {}", expect_signature);
+        // println!("sig: {}", signature);
+        expect_signature == signature
     }
 
     pub fn push(&self, to: &str, msg: Vec<LineMessage>) {
