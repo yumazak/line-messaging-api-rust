@@ -1,6 +1,5 @@
 extern crate reqwest;
 extern crate serde;
-extern crate tokio;
 extern crate bytes;
 extern crate base64;
 extern crate hmac;
