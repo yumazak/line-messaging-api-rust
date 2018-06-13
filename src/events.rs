@@ -1,7 +1,5 @@
 use serde_json::Value;
 
-use std::cell::RefCell;
-
 use bot::LineBot;
 use sources::LineSource;
 use messages::LineMessage;
@@ -16,9 +14,9 @@ pub enum LineEventType {
 #[derive(Serialize, Deserialize, Clone)]
 pub struct LineEvent {
     #[serde(flatten, rename = "type")]  
-    kind:      LineEventType,
+    kind     : LineEventType,
     timestamp: u64,
-    source:    LineSource,
+    source   : LineSource,
 }
 
 impl LineEvent {
@@ -39,7 +37,7 @@ pub enum PostBackParams {
 
 #[derive(Serialize, Deserialize, Clone)]
 pub struct PostBack {
-    data:   String,
+    data  : String,
     params: PostBackParams,
 }
 
@@ -59,7 +57,7 @@ pub struct Beacon {
 #[derive(Serialize, Deserialize, Clone)]
 pub struct Link {
     result: String,
-    nonce:  String,
+    nonce : String,
 }
 
 #[derive(Serialize, Deserialize, Clone)]
@@ -77,9 +75,9 @@ pub enum ReplyableEventType {
 #[derive(Serialize, Deserialize, Clone)]
 pub struct ReplyableEvent {
     #[serde(flatten, rename = "type")]  
-    pub kind: ReplyableEventType,
-    pub timestamp: u64,
-    pub source: LineSource,
+    pub kind       : ReplyableEventType,
+    pub timestamp  : u64,
+    pub source     : LineSource,
     #[serde(rename = "replyToken")]
     pub reply_token: String,
 }
