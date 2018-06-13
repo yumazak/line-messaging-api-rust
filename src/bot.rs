@@ -48,7 +48,7 @@ impl LineBot {
     pub fn push_message(&self, to: &str, msg: LineMessage) {
         let messages = vec![msg];
         let data = json!({
-            "to": to,
+            "to":       to,
             "messages": messages
         });
 
@@ -57,7 +57,7 @@ impl LineBot {
 
     pub fn push_messages(&self, to: &str, msg: Vec<LineMessage>) {
         let data = json!({
-            "to": to,
+            "to":       to,
             "messages": msg
         });
 
@@ -79,7 +79,7 @@ impl LineBot {
     pub fn get_profile_from_user_source(&self, user: LineSource) {
         match user.kind {
             LineSourceType::User{ user_id } => self.get_profile(&user_id),
-            _ => {}
+            _                               => {}
         }
     }
 

@@ -2,11 +2,11 @@
 pub struct BlockStyle {
     #[serde(rename = "backgroundColor", skip_serializing_if = "String::is_empty")]
     background_color: String,
-    separator       : bool,
+    separator:        bool,
     #[serde(rename = "separatorColor", skip_serializing_if = "String::is_empty")]
-    separator_color : String,
+    separator_color:  String,
     #[serde(skip)]
-    is_empty        : bool,
+    is_empty:         bool,
 }
 
 impl BlockStyle {
@@ -14,17 +14,17 @@ impl BlockStyle {
         BlockStyle {
             background_color: String::from(background_color),
             separator,
-            separator_color : String::from(separator_color),
-            is_empty        : false,
+            separator_color:  String::from(separator_color),
+            is_empty:         false,
         }
     }
 
     pub fn create_empty() -> BlockStyle {
         BlockStyle {
             background_color: String::new(),
-            separator       : false,
-            separator_color : String::new(),
-            is_empty        : true,
+            separator:        false,
+            separator_color:  String::new(),
+            is_empty:         true,
         }
     }
 
@@ -34,13 +34,13 @@ impl BlockStyle {
 #[derive(Serialize, Deserialize, Clone)]
 pub struct BubbleStyle {
     #[serde(skip_serializing_if = "BlockStyle::is_empty")]
-    header  : BlockStyle,
+    header:   BlockStyle,
     #[serde(skip_serializing_if = "BlockStyle::is_empty")]
-    hero    : BlockStyle,
+    hero:     BlockStyle,
     #[serde(skip_serializing_if = "BlockStyle::is_empty")]
-    body    : BlockStyle,
+    body:     BlockStyle,
     #[serde(skip_serializing_if = "BlockStyle::is_empty")]
-    footer  : BlockStyle,
+    footer:   BlockStyle,
     #[serde(skip)]
     is_empty: bool,
 }
@@ -52,10 +52,10 @@ impl BubbleStyle {
 
     pub fn create_empty() -> BubbleStyle {
         BubbleStyle {
-            header  : BlockStyle::create_empty(),
-            hero    : BlockStyle::create_empty(),
-            body    : BlockStyle::create_empty(),
-            footer  : BlockStyle::create_empty(),
+            header:   BlockStyle::create_empty(),
+            hero:     BlockStyle::create_empty(),
+            body:     BlockStyle::create_empty(),
+            footer:   BlockStyle::create_empty(),
             is_empty: true,
         }
     }

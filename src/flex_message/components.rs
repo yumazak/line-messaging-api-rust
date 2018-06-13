@@ -4,65 +4,65 @@ use actions::Action;
 #[serde(tag = "type", rename_all = "camelCase")]
 pub enum ComponentType {
     Box {
-        layout  : String,
+        layout:   String,
         contents: Vec<Component>,
-        flex    : u64,
+        flex:     u64,
         #[serde(skip_serializing_if = "String::is_empty")]
-        spacing : String,
+        spacing:  String,
         #[serde(skip_serializing_if = "String::is_empty")]
-        margin  : String,
+        margin:   String,
     },
     Button {
-        action : Action,
-        flex   : u64,
+        action:  Action,
+        flex:    u64,
         #[serde(skip_serializing_if = "String::is_empty")]
-        margin : String,
+        margin:  String,
         #[serde(skip_serializing_if = "String::is_empty")]
-        height : String,
+        height:  String,
         #[serde(skip_serializing_if = "String::is_empty")]
-        style  : String,
+        style:   String,
         #[serde(skip_serializing_if = "String::is_empty")]
-        color  : String,
+        color:   String,
         #[serde(skip_serializing_if = "String::is_empty")]
         gravity: String,
     },
     Filler,
     Icon {
         #[serde(skip_serializing_if = "String::is_empty")]
-        url         : String,
+        url:          String,
         #[serde(skip_serializing_if = "String::is_empty")]
-        margin      : String,
+        margin:       String,
         #[serde(skip_serializing_if = "String::is_empty")]
-        size        : String,
+        size:         String,
         #[serde(rename = "aspectRatio", skip_serializing_if = "String::is_empty")]
         aspect_ratio: String,
     },
     Image {
         #[serde(skip_serializing_if = "String::is_empty")]
-        url             : String,
-        flex            : u64,
+        url:              String,
+        flex:             u64,
         #[serde(skip_serializing_if = "String::is_empty")]
-        margin          : String,
+        margin:           String,
         #[serde(skip_serializing_if = "String::is_empty")]
-        align           : String,
+        align:            String,
         #[serde(skip_serializing_if = "String::is_empty")]
-        gravity         : String,
+        gravity:          String,
         #[serde(skip_serializing_if = "String::is_empty")]
-        size            : String,
+        size:             String,
         #[serde(rename = "aspectRatio", skip_serializing_if = "String::is_empty")]
-        aspect_ratio    : String,
+        aspect_ratio:     String,
         #[serde(rename = "aspectMode", skip_serializing_if = "String::is_empty")]
-        aspect_mode     : String,
+        aspect_mode:      String,
         #[serde(rename = "backgroundColor", skip_serializing_if = "String::is_empty")]
         background_color: String,
         #[serde(skip_serializing_if = "Action::is_empty")]
-        action          : Action,
+        action:           Action,
     },
     Separator {
         #[serde(skip_serializing_if = "String::is_empty")]
         margin: String,
         #[serde(skip_serializing_if = "String::is_empty")]
-        color : String
+        color:  String
     },
     Spacer {
         #[serde(skip_serializing_if = "String::is_empty")]
@@ -70,21 +70,21 @@ pub enum ComponentType {
     },
     Text {
         #[serde(skip_serializing_if = "String::is_empty")]
-        text    : String,
-        flex    : u64,
+        text:     String,
+        flex:     u64,
         #[serde(skip_serializing_if = "String::is_empty")]
-        margin  : String,
+        margin:   String,
         #[serde(skip_serializing_if = "String::is_empty")]
-        size    : String,
+        size:     String,
         #[serde(skip_serializing_if = "String::is_empty")]
-        align   : String,
+        align:    String,
         #[serde(skip_serializing_if = "String::is_empty")]
-        gravity : String,
-        wrap    : bool,
+        gravity:  String,
+        wrap:     bool,
         #[serde(skip_serializing_if = "String::is_empty")]
-        weight  : String,
+        weight:   String,
         #[serde(skip_serializing_if = "String::is_empty")]
-        color   : String,
+        color:    String,
     },
     Empty,
 }
@@ -92,7 +92,7 @@ pub enum ComponentType {
 #[derive(Serialize, Deserialize, Clone)]
 pub struct Component {
     #[serde(flatten, rename = "type")]
-    pub kind    : ComponentType,
+    pub kind: ComponentType,
 }
 
 impl Component {
@@ -115,11 +115,11 @@ impl Component {
     pub fn create_box(layout: &str, contents: Vec<Component>, flex: u64, spacing: &str, margin: &str) -> Component {
         Component {
             kind: ComponentType::Box {
-                layout : String::from(layout),
+                layout:  String::from(layout),
                 contents,
                 flex,
                 spacing: String::from(spacing),
-                margin : String::from(margin),
+                margin:  String::from(margin),
             }
         }
     }
@@ -129,10 +129,10 @@ impl Component {
             kind: ComponentType::Button {
                 action,
                 flex,
-                margin : String::from(margin),
-                height : String::from(height),
-                style  : String::from(style),
-                color  : String::from(color),
+                margin:  String::from(margin),
+                height:  String::from(height),
+                style:   String::from(style),
+                color:   String::from(color),
                 gravity: String::from(gravity),
             }
         }
@@ -145,9 +145,9 @@ impl Component {
     pub fn create_icon(url: &str, margin: &str, size: &str, aspect_ratio: &str) -> Component {
         Component {
             kind: ComponentType::Icon {
-                url         : String::from(url),
-                margin      : String::from(margin),
-                size        : String::from(size),
+                url:          String::from(url),
+                margin:       String::from(margin),
+                size:         String::from(size),
                 aspect_ratio: String::from(aspect_ratio)
             }
         }
@@ -156,14 +156,14 @@ impl Component {
     pub fn create_image(url: &str, flex: u64, margin: &str, align: &str, gravity: &str, size: &str, aspect_ratio: &str, aspect_mode: &str, background_color: &str, action: Action) -> Component {
         Component {
             kind: ComponentType::Image {
-                url             : String::from(url),
+                url:              String::from(url),
                 flex,
-                margin          : String::from(margin),
-                align           : String::from(align),
-                gravity         : String::from(gravity),
-                size            : String::from(size),
-                aspect_ratio    : String::from(aspect_ratio),
-                aspect_mode     : String::from(aspect_mode),
+                margin:           String::from(margin),
+                align:            String::from(align),
+                gravity:          String::from(gravity),
+                size:             String::from(size),
+                aspect_ratio:     String::from(aspect_ratio),
+                aspect_mode:      String::from(aspect_mode),
                 background_color: String::from(background_color),
                 action,
             }
@@ -174,7 +174,7 @@ impl Component {
         Component {
             kind: ComponentType::Separator {
                 margin: String::from(margin),
-                color : String::from(color),
+                color: String::from(color),
             }
         }
     }
@@ -190,15 +190,15 @@ impl Component {
     pub fn create_text(text: &str, flex: u64, margin: &str, size: &str, align: &str, gravity: &str, wrap: bool, weight: &str, color: &str) -> Component {
         Component {
             kind: ComponentType::Text {
-                text   : String::from(text),
+                text:    String::from(text),
                 flex,
-                margin : String::from(margin),
-                size   : String::from(size),
-                align  : String::from(align),
+                margin:  String::from(margin),
+                size:    String::from(size),
+                align:   String::from(align),
                 gravity: String::from(gravity),
                 wrap,
-                weight : String::from(weight),
-                color  : String::from(color),
+                weight:  String::from(weight),
+                color:   String::from(color),
             }
         }
     }

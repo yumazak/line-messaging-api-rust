@@ -6,7 +6,7 @@ use flex_message::containers::FlexContainer;
 #[serde(rename_all = "camelCase")]
 pub struct BaseSize {
     pub height: u64,
-    pub width : u64,
+    pub width:  u64,
 }
 
 #[derive(Serialize, Deserialize, Clone)]
@@ -17,25 +17,25 @@ pub enum LineMessageType {
         #[serde(default, rename = "originalContentUrl")]     
         original_content_url: String,
         #[serde(default, rename = "previewImageUrl")]
-        preview_image_url   : String,
+        preview_image_url:    String,
     },
     Video {
         #[serde(default, rename = "originalContentUrl")]        
         original_content_url: String,
         #[serde(default, rename = "previewImageUrl")]
-        preview_image_url   : String,
+        preview_image_url:    String,
     },
     Audio {
         #[serde(default, rename = "originalContentUrl")]        
         original_content_url: String,
         #[serde(default)]
-        duration            : u64,
+        duration:             u64,
     },
     Location {
         #[serde(default)]
-        title    : String,
-        address  : String,
-        latitude : f64,
+        title:     String,
+        address:   String,
+        latitude:  f64,
         longitude: f64
     },
     File {
@@ -52,12 +52,12 @@ pub enum LineMessageType {
     },
     Imagemap { 
         #[serde(rename = "baseUrl")]
-        base_url: String,
+        base_url:  String,
         #[serde(rename = "altText")]
-        alt_text: String,
+        alt_text:  String,
         #[serde(rename = "baseSize")]
         base_size: BaseSize,
-        actions: Vec<ImagemapAction>
+        actions:   Vec<ImagemapAction>
     },
     Template {
         #[serde(default, rename = "altText")]             
@@ -75,7 +75,7 @@ pub enum LineMessageType {
 pub struct LineMessage {
     #[serde(flatten, rename = "type")]
     pub kind: LineMessageType,
-    pub id  : String,
+    pub id:   String,
 }
 
 //builder and getter
@@ -202,7 +202,7 @@ impl LineMessage {
             id: String::from(id),
             kind: LineMessageType::Image {
                 original_content_url: String::from(original_content_url),
-                preview_image_url   : String::from(preview_image_url),
+                preview_image_url:    String::from(preview_image_url),
             }
         }
     }
@@ -212,7 +212,7 @@ impl LineMessage {
             id: String::from(id),
             kind: LineMessageType::Video {
                 original_content_url: String::from(original_content_url),
-                preview_image_url   : String::from(preview_image_url),
+                preview_image_url:    String::from(preview_image_url),
             }
         }
     }
@@ -240,7 +240,7 @@ impl LineMessage {
         LineMessage {
             id: String::from(id),
             kind: LineMessageType::Location {
-                title: String::from(title),
+                title:   String::from(title),
                 address: String::from(address),
                 latitude,
                 longitude,
@@ -252,8 +252,8 @@ impl LineMessage {
         LineMessage {
             id: String::from(id),
             kind: LineMessageType::Imagemap {
-                base_url: String::from(base_url),
-                alt_text: String::from(alt_text),
+                base_url:  String::from(base_url),
+                alt_text:  String::from(alt_text),
                 base_size: BaseSize { height, width },
                 actions,
             }

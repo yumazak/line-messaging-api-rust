@@ -8,15 +8,15 @@ pub enum FlexContainerType {
         #[serde(skip_serializing_if = "String::is_empty")]
         direction: String,
         #[serde(skip_serializing_if = "Component::is_empty")]
-        header   : Component,
+        header:    Component,
         #[serde(skip_serializing_if = "Component::is_empty")]
-        hero     : Component,
+        hero:      Component,
         #[serde(skip_serializing_if = "Component::is_empty")]
-        body     : Component,
+        body:      Component,
         #[serde(skip_serializing_if = "Component::is_empty")]
-        footer   : Component,
+        footer:    Component,
         #[serde(skip_serializing_if = "Style::is_empty")]
-        styles   : Style,
+        styles:    Style,
     },
     Carousel {
         contents: Vec<FlexContainer>
