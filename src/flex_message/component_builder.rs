@@ -1,4 +1,4 @@
-use flex_message::components::{ ComponentType, Component };
+use flex_message::components::Component;
 use actions::Action;
 
 pub struct ComponentBuilder {
@@ -79,24 +79,24 @@ impl ComponentBuilder {
     }
 
     //set values
-    pub fn set_align(&mut self, value: &str) -> &mut ComponentBuilder { self.align = String::from(value); self }
-    pub fn set_aspect_ratio(&mut self, value: &str) -> &mut ComponentBuilder { self.aspect_ratio = String::from(value); self }
-    pub fn set_aspect_mode(&mut self, value: &str) -> &mut ComponentBuilder { self.aspect_mode = String::from(value); self }
-    pub fn set_background_color(&mut self, value: &str) -> &mut ComponentBuilder { self.background_color = String::from(value); self }
-    pub fn set_color(&mut self, value: &str) -> &mut ComponentBuilder { self.color = String::from(value); self }
-    pub fn set_gravity(&mut self, value: &str) -> &mut ComponentBuilder { self.gravity = String::from(value); self }
-    pub fn set_height(&mut self, value: &str) -> &mut ComponentBuilder { self.height = String::from(value); self }
-    pub fn set_layout(&mut self, value: &str) -> &mut ComponentBuilder { self.layout = String::from(value); self }
-    pub fn set_margin(&mut self, value: &str) -> &mut ComponentBuilder { self.margin = String::from(value); self }
-    pub fn set_spacing(&mut self, value: &str) -> &mut ComponentBuilder { self.spacing = String::from(value); self }
-    pub fn set_style(&mut self, value: &str) -> &mut ComponentBuilder { self.style = String::from(value); self }
-    pub fn set_size(&mut self, value: &str) -> &mut ComponentBuilder { self.size = String::from(value); self }
-    pub fn set_text(&mut self, value: &str) -> &mut ComponentBuilder { self.text = String::from(value); self }
-    pub fn set_url(&mut self, value: &str) -> &mut ComponentBuilder { self.url = String::from(value); self }
-    pub fn set_weight(&mut self, value: &str) -> &mut ComponentBuilder { self.url = String::from(value); self }
-    pub fn set_wrap(&mut self, value: bool) -> &mut ComponentBuilder { self.wrap = value; self }
-    pub fn set_flex(&mut self, value: u64) -> &mut ComponentBuilder { self.flex = value; self }
+    pub fn set_align(&mut self, value: &str)              -> &mut ComponentBuilder { self.align = String::from(value); self }
+    pub fn set_aspect_ratio(&mut self, value: &str)       -> &mut ComponentBuilder { self.aspect_ratio = String::from(value); self }
+    pub fn set_aspect_mode(&mut self, value: &str)        -> &mut ComponentBuilder { self.aspect_mode = String::from(value); self }
+    pub fn set_background_color(&mut self, value: &str)   -> &mut ComponentBuilder { self.background_color = String::from(value); self }
+    pub fn set_color(&mut self, value: &str)              -> &mut ComponentBuilder { self.color = String::from(value); self }
+    pub fn set_gravity(&mut self, value: &str)            -> &mut ComponentBuilder { self.gravity = String::from(value); self }
+    pub fn set_height(&mut self, value: &str)             -> &mut ComponentBuilder { self.height = String::from(value); self }
+    pub fn set_layout(&mut self, value: &str)             -> &mut ComponentBuilder { self.layout = String::from(value); self }
+    pub fn set_margin(&mut self, value: &str)             -> &mut ComponentBuilder { self.margin = String::from(value); self }
+    pub fn set_spacing(&mut self, value: &str)            -> &mut ComponentBuilder { self.spacing = String::from(value); self }
+    pub fn set_style(&mut self, value: &str)              -> &mut ComponentBuilder { self.style = String::from(value); self }
+    pub fn set_size(&mut self, value: &str)               -> &mut ComponentBuilder { self.size = String::from(value); self }
+    pub fn set_text(&mut self, value: &str)               -> &mut ComponentBuilder { self.text = String::from(value); self }
+    pub fn set_url(&mut self, value: &str)                -> &mut ComponentBuilder { self.url = String::from(value); self }
+    pub fn set_weight(&mut self, value: &str)             -> &mut ComponentBuilder { self.url = String::from(value); self }
+    pub fn set_wrap(&mut self, value: bool)               -> &mut ComponentBuilder { self.wrap = value; self }
+    pub fn set_flex(&mut self, value: u64)                -> &mut ComponentBuilder { self.flex = value; self }
     pub fn set_contents(&mut self, value: Vec<Component>) -> &mut ComponentBuilder { self.contents = value; self }
-    pub fn set_action(&mut self, value: Action) -> &mut ComponentBuilder { self.action = value; self }
+    pub fn set_action(&mut self, value: Action)           -> &mut ComponentBuilder { self.action = value; self }
 
 }
