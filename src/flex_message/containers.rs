@@ -1,5 +1,5 @@
 use flex_message::components::Component;
-use flex_message::styles::{ Style, BlockStyle, BubbleStyle };
+use flex_message::styles::Style;
 
 #[derive(Serialize, Deserialize, Clone)]
 #[serde(tag = "type", rename_all = "camelCase")]
