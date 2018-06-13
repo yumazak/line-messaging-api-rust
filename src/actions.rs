@@ -8,17 +8,17 @@ pub enum ImageActionType {
         link_uri: String,
     },
     Message {
-        text : String
+        text: String
     },
 }
 
 #[derive(Serialize, Deserialize, Clone)]
 pub struct ImagemapAction {
     #[serde(rename="type", flatten)]
-    kind: ImageActionType,
+    kind : ImageActionType,
     #[serde(default)]
-    label   : String,
-    area: Rectangle,
+    label: String,
+    area : Rectangle,
 }
 
 impl ImagemapAction {
@@ -28,17 +28,17 @@ impl ImagemapAction {
 
     pub fn create_imagemap_uri_action(label: &str, link_uri: &str, x: u64, y: u64, width: u64, height: u64) -> ImagemapAction {
         ImagemapAction {
-            kind: ImageActionType::Uri { link_uri: String::from(link_uri) },
+            kind : ImageActionType::Uri { link_uri: String::from(link_uri) },
             label: String::from(label),
-            area: Rectangle { x, y, width, height }
+            area : Rectangle { x, y, width, height }
         }
     }
 
     pub fn create_imagemap_message_action(label: &str, text: &str, x: u64, y: u64, width: u64, height: u64) -> ImagemapAction {
         ImagemapAction {
-            kind: ImageActionType::Message { text: String::from(text) },
+            kind : ImageActionType::Message { text: String::from(text) },
             label: String::from(label),
-            area: Rectangle { x, y, width, height }
+            area : Rectangle { x, y, width, height }
         }
     }
 }
@@ -135,5 +135,4 @@ impl Action {
             }
         }
     }
-
 }
