@@ -107,7 +107,7 @@ impl LineBot {
         self.post(&url, json!({}), json!({}));
     }
 
-    pub fn get(&self, endpoint: &str, options: HashMap<String, String>) -> Response{
+    pub fn get(&self, endpoint: &str, options: HashMap<String, String>) -> Response {
         let url = format!("{}{}", BASE_URL, endpoint);
 
         self.client.get(&url)
