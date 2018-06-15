@@ -48,3 +48,10 @@ fn get_test() {
     let message = LineMessage::new("", LineMessageType::Text{ text: String::from("Hello") });
     bot.push_message("Ua2829b4c5a9b21984c091fc0b641fa8f", message);        
 }
+
+#[test]
+fn get_signature_test() {
+    let bot = common::get_bot();
+    let body = r#"{"message":"from google app script"}"#;
+    println!("{}", bot.get_signature(body))
+}
