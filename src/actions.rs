@@ -15,10 +15,10 @@ pub enum ImageActionType {
 #[derive(Serialize, Deserialize, Clone)]
 pub struct ImagemapAction {
     #[serde(rename="type", flatten)]
-    kind:  ImageActionType,
+    kind : ImageActionType,
     #[serde(default)]
     label: String,
-    area:  Rectangle,
+    area : Rectangle,
 }
 
 impl ImagemapAction {
@@ -28,17 +28,17 @@ impl ImagemapAction {
 
     pub fn create_imagemap_uri_action(label: &str, link_uri: &str, x: u64, y: u64, width: u64, height: u64) -> ImagemapAction {
         ImagemapAction {
-            kind:  ImageActionType::Uri { link_uri: String::from(link_uri) },
+            kind : ImageActionType::Uri { link_uri: String::from(link_uri) },
             label: String::from(label),
-            area:  Rectangle { x, y, width, height }
+            area : Rectangle { x, y, width, height }
         }
     }
 
     pub fn create_imagemap_message_action(label: &str, text: &str, x: u64, y: u64, width: u64, height: u64) -> ImagemapAction {
         ImagemapAction {
-            kind:  ImageActionType::Message { text: String::from(text) },
+            kind : ImageActionType::Message { text: String::from(text) },
             label: String::from(label),
-            area:  Rectangle { x, y, width, height }
+            area : Rectangle { x, y, width, height }
         }
     }
 }
@@ -49,18 +49,18 @@ pub enum ActionType {
     Message { text: String },
     Uri { uri: String },
     Postback { 
-        data:         String,
+        data: String,
         #[serde(skip_serializing_if = "String::is_empty")]
         display_text: String,
         #[serde(skip_serializing_if = "String::is_empty")]
-        text:         String,
+        text: String,
     },
     Datetimepicker {
-        data:    String,
-        mode:    String,
+        data   : String,
+        mode   : String,
         initial: String,
-        max:     String,
-        min:     String,
+        max    : String,
+        min    : String,
     },
     Empty,
 }
@@ -96,9 +96,9 @@ impl Action {
         Action {
             label: String::from(label),
             kind: ActionType::Postback {
-                data:         String::from(data),
+                data        : String::from(data),
                 display_text: String::new(),
-                text:         String::new(),
+                text        : String::new(),
             }
         }
     }
@@ -106,9 +106,9 @@ impl Action {
         Action {
             label: String::from(label),
             kind: ActionType::Postback {
-                data:         String::from(data),
+                data        : String::from(data),
                 display_text: String::from(display_text),
-                text:         String::new(),
+                text        : String::new(),
             }
         }
     }
@@ -116,9 +116,9 @@ impl Action {
         Action {
             label: String::from(label),
             kind: ActionType::Postback {
-                data:         String::from(data),
+                data        : String::from(data),
                 display_text: String::new(),
-                text:         String::from(text),
+                text        : String::from(text),
             }
         }
     }
@@ -127,11 +127,11 @@ impl Action {
         Action {
             label: String::from(label),
             kind: ActionType::Datetimepicker {
-                data:    String::from(data),
-                mode:    String::from(mode),
+                data   : String::from(data),
+                mode   : String::from(mode),
                 initial: String::from(initial),
-                max:     String::from(max),
-                min:     String::from(min),
+                max    : String::from(max),
+                min    : String::from(min),
             }
         }
     }
