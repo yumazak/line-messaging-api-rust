@@ -146,7 +146,7 @@ fn push_carousel_template_test() {
 }
 
 #[test]
-// #[ignore]
+#[ignore]
 fn push_image_carousel_template_test() {
     let action1 = Action::create_postback("Buy", "action=buy&itemid=123");
 
@@ -172,18 +172,44 @@ fn push_image_carousel_template_test() {
 
 #[test]
 pub fn push_flex_text() {
-    let text = ComponentBuilder::new()
-                    .set_text("first_bubble")
-                    .build_text();
-    let box1  = ComponentBuilder::new()
-                    .set_layout("vertical")
-                    .set_contents(vec![text.clone()])
-                    .build_box();
-    let bubble = FlexContainer::create_bubble("", Component::create_empty(), Component::create_empty(), box1, Component::create_empty(), Style::Empty);
+    // let filler = ComponentBuilder::new()
+    //                 .build_filler();
+    // let header = ComponentBuilder::new()
+    //                 .set_layout("vertical")
+    //                 .set_contents(vec![filler.clone()])
+    //                 .build_box();
 
-    let carousel = FlexContainer::create_carusel(vec![bubble.clone(), bubble.clone()]);
+    let hero = ComponentBuilder::new()
+                .set_url("https://i.imgur.com/t4VFZ9U.png")
+                .set_aspect_ratio("1:1")
+                .build_image();
 
-    let message = LineMessage::create_flex("", "this is a flex", carousel);
+    let separator       = ComponentBuilder::new().build_separator();
+    let tempaleture     = ComponentBuilder::new()
+                            .set_text(&format!("気温:    {}度", 10))
+                            .set_size("xl")
+                            .set_margin("xl")
+                            .build_text();
+    let tempaleture_min = ComponentBuilder::new()
+                            .set_text(&format!("最高気温: {}度",5))
+                            .set_size("xl")
+                            .build_text();
+    let tempaleture_max = ComponentBuilder::new()
+                            .set_text(&format!("最低気温: {}度",5))
+                            .set_size("xl")
+                            .build_text();
 
+    let contents  = vec![tempaleture, tempaleture_min, tempaleture_max];
+    let component = ComponentBuilder::new()
+                        .set_layout("vertical")
+                        .set_contents(contents)
+                        .build_box();
+
+    let style = BlockStyle::new("#034c76", false, "");
+    let styles = BubbleStyle::new(BlockStyle::create_empty(), style, BlockStyle::create_empty(), BlockStyle::create_empty());
+
+    let bubble = FlexContainer::create_bubble("", Component::create_empty(), hero, component, Component::create_empty(), Style::Bubble{styles});
+    let message: LineMessage = LineMessage::create_flex("", "this is a flex", bubble);
+    println!("{}", serde_json::to_string(&message).unwrap());
     common::push_message(message);
 }

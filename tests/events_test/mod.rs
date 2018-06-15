@@ -70,3 +70,11 @@ fn account_link_test() {
     let data = common::get_test_account_link();
     let content: ReplyableEvent = utils::to_events(&data).unwrap();
 }
+
+#[test]
+
+fn replyable_get_text_test() {
+    let data = common::get_test_text();
+    let content: ReplyableEvent = utils::to_events(&data).unwrap();
+    println!("{}", content.get_text().unwrap());
+}
