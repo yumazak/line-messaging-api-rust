@@ -109,4 +109,16 @@ impl ReplyableEvent {
             _ => None
         }
     }
+
+    pub fn get_text(&self) -> Option<String> {
+        match self.kind.clone() {
+            ReplyableEventType::Message { message } => {
+                match message.get_text() {
+                    Some(text) => Some(text),
+                    None => None,
+                }
+            },
+            _ => None
+        }
+    }
 }
