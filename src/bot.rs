@@ -27,6 +27,11 @@ impl LineBot {
     }
 
     pub fn check_signature(&self, body: &str, signature: &str) -> bool {
+        let expect_signature = self.get_signature(body);
+        expect_signature == signature
+    }
+
+    pub fn get_signature(&self, body: &str) -> String {
         use sha2::Sha256;
         use hmac::{Hmac, Mac};
         use base64::encode;
@@ -37,12 +42,7 @@ impl LineBot {
         mac.input(body.as_bytes());
         let result = mac.result();
         let expect_signature  = encode(&result.code().to_vec());
-
-        // println!("secret: {}", self.config.get_channel_secret());
-        // println!("body: {}", body);
-        // println!("expect_sig: {}", expect_signature);
-        // println!("sig: {}", signature);
-        expect_signature == signature
+        expect_signature
     }
 
     pub fn push_message(&self, to: &str, msg: LineMessage) {
