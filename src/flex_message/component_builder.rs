@@ -93,7 +93,7 @@ impl ComponentBuilder {
     pub fn set_size(&mut self, value: &str)               -> &mut ComponentBuilder { self.size = String::from(value); self }
     pub fn set_text(&mut self, value: &str)               -> &mut ComponentBuilder { self.text = String::from(value); self }
     pub fn set_url(&mut self, value: &str)                -> &mut ComponentBuilder { self.url = String::from(value); self }
-    pub fn set_weight(&mut self, value: &str)             -> &mut ComponentBuilder { self.url = String::from(value); self }
+    pub fn set_weight(&mut self, value: &str)             -> &mut ComponentBuilder { self.weight = String::from(value); self }
     pub fn set_wrap(&mut self, value: bool)               -> &mut ComponentBuilder { self.wrap = value; self }
     pub fn set_flex(&mut self, value: u64)                -> &mut ComponentBuilder { self.flex = value; self }
     pub fn set_contents(&mut self, value: Vec<Component>) -> &mut ComponentBuilder { self.contents = value; self }
