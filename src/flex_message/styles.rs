@@ -66,8 +66,14 @@ impl BubbleStyle {
 #[derive(Serialize, Deserialize, Clone)]
 #[serde(untagged)]
 pub enum Style {
-    Bubble { styles: BubbleStyle },
-    BlockStyle { styles: BlockStyle },
+    Bubble {
+        #[serde(flatten)]
+        styles: BubbleStyle
+    },
+    BlockStyle {
+        #[serde(flatten)]        
+        styles: BlockStyle
+    },
     Empty,
 }
 
