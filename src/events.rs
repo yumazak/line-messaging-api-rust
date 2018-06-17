@@ -28,18 +28,28 @@ impl LineEvent {
 
 
 
-#[derive(Serialize, Deserialize, Clone)]
-pub enum PostBackParams {
-    Date { date: String },
-    Time { time: String },
-    Datetime { datetime: String },
+#[derive(Serialize, Deserialize, Default, Clone)]
+#[serde(rename_all = "camelCase")]
+pub struct PostBackParams {
+    date: String,
+    #[serde(default)]
+    time: String,
+    #[serde(default)]
+    datetime: String,
 }
 
 #[derive(Serialize, Deserialize, Clone)]
 pub struct PostBack {
-    data  : String,
+    pub data  : String,
+    #[serde(default)]
     params: PostBackParams,
 }
+
+// impl PostBack {
+//     pub fn get_data() -> Option<String> {
+//         self.data().clone()
+//     }
+// }
 
 #[derive(Serialize, Deserialize, Clone)]
 pub enum BeaconEventType {
@@ -64,7 +74,7 @@ pub struct Link {
 #[serde(tag = "type", rename_all = "camelCase")]
 pub enum ReplyableEventType {
     Message       { message: LineMessage },
-    Postback      { postback: Value },
+    Postback      { postback: PostBack },
     Beacon        { beacon: Beacon },
     AccountLink   { link: Link },
     Follow,
