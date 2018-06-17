@@ -21,10 +21,10 @@ where for<'de> T: Deserialize<'de>,
         Ok(events) => events,
         Err(err) => return Err(err.to_string()),
     };
+    
     let contents: Value = match serde_json::to_value(&events["events"][0]) {
         Ok(contents) => contents,
         Err(err) => return Err(err.to_string()),
     };
-    
     serde_json::from_value(contents).map_err(|err| { err.to_string() })
 }
