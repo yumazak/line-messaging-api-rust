@@ -55,8 +55,10 @@ fn leave_test() {
 
 #[test]
 fn postback_test() {
-    let data = common::get_test_postback();
+    // let data = common::get_test_postback();
+    let data = r#" {"events" :[{"postback":{"data":"action=done&id=1"},"replyToken":"96137b2f5ca94ad89b0c00cddffcbf26","source":{"type":"user","userId":"Ua2829b4c5a9b21984c091fc0b641fa8f"},"timestamp":1529131400505,"type":"postback"}]}"#;
     let content: ReplyableEvent = utils::to_events(&data).unwrap();
+
 }
 
 #[test]
