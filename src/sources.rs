@@ -29,4 +29,11 @@ impl LineSource {
     pub fn new (kind: LineSourceType) -> LineSource {
         LineSource { kind }
     }
+
+    pub fn get_user_id(&self) -> String {
+        match self.kind.clone() {
+            LineSourceType::User { user_id } => user_id,
+            _                            => String::new()
+        }
+    }
 }
