@@ -134,10 +134,10 @@ impl LineBot {
         let mut buf = String::new();
         response.read_to_string(&mut buf).expect("Failed to read response");
 
-        // println!("url: {}", url);
-        // println!("body: {}", data);
-        // println!("Response: {}", buf);
-        // println!("res: {:?}", response);
+        println!("url: {}\n", url);
+        println!("body: {}\n", data);
+        println!("Response: {}\n", buf);
+        println!("res: {:?}\n", response);
         response
     }
 }
